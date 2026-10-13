@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Präpositionen-Trainer · B2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,420;9..144,560;9..144,680&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #E9E4D8;
+    --bg-grain: #DDD6C6;
+    --surface: #FEFCF6;
+    --surface-2: #F4EFE2;
+    --ink: #241F19;
+    --ink-soft: #6B6153;
+    --line: #D8CFBC;
+    --verb: #3D5A99;
+    --verb-soft: #E4E9F5;
+    --nomen: #A9781F;
+    --nomen-soft: #F3E8D2;
+    --adj: #7A5C9E;
+    --adj-soft: #EDE5F4;
+    --prio: #C43391;
+    --prio-soft: #FBE2F0;
+    --shared: #3E7C99;
+    --shared-soft: #E1EDF2;
+    --ok: #2F8F6F;
+    --ok-soft: #DCF1E8;
+    --err: #C0392B;
+    --err-soft: #FBE2DE;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(36,31,25,.06), 0 8px 20px -10px rgba(36,31,25,.22);
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #1B1815;
+      --bg-grain: #221E19;
+      --surface: #2A2520;
+      --surface-2: #322C25;
+      --ink: #EFE8DC;
+      --ink-soft: #B3A996;
+      --line: #453D33;
+      --verb-soft: #232C42;
+      --nomen-soft: #3A2F1B;
+      --adj-soft: #2E2739;
+      --prio-soft: #3A2030;
+      --shared-soft: #1F2E35;
+      --ok-soft: #1B3229;
+      --err-soft: #3A211C;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1B1815;
+    --bg-grain: #221E19;
+    --surface: #2A2520;
+    --surface-2: #322C25;
+    --ink: #EFE8DC;
+    --ink-soft: #B3A996;
+    --line: #453D33;
+    --verb-soft: #232C42;
+    --nomen-soft: #3A2F1B;
+    --adj-soft: #2E2739;
+    --prio-soft: #3A2030;
+    --shared-soft: #1F2E35;
+    --ok-soft: #1B3229;
+    --err-soft: #3A211C;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(circle at 1px 1px, var(--bg-grain) 1px, transparent 1px) 0 0/14px 14px,
+      var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-font-smoothing: antialiased;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 20px 18px 60px; }
+
+  header.top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 12px; margin-bottom: 18px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif; font-weight: 680; font-optical-sizing: auto;
+    font-size: 26px; margin: 0 0 2px; letter-spacing: -0.01em;
+  }
+  header.top p { margin: 0; color: var(--ink-soft); font-size: 13.5px; }
+  button.icon {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    width: 38px; height: 38px; border-radius: 10px; cursor: pointer; flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: center; font-size: 17px;
+  }
+  button.icon:hover { background: var(--surface-2); }
+
+  nav.tabs {
+    display: flex; gap: 6px; margin-bottom: 18px; border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+  }
+  nav.tabs button {
+    border: none; background: none; color: var(--ink-soft); font: inherit; font-size: 14px;
+    padding: 9px 4px; margin-right: 14px; cursor: pointer; border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  nav.tabs button.active { color: var(--ink); border-bottom-color: var(--prio); font-weight: 600; }
+
+  .catbar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .catbar button {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+    font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  }
+  .catbar button.on { color: var(--surface); border-color: transparent; }
+  .catbar button.on[data-cat="all"] { background: var(--ink); }
+  .catbar button.on[data-cat="V"] { background: var(--verb); }
+  .catbar button.on[data-cat="N"] { background: var(--nomen); }
+  .catbar button.on[data-cat="A"] { background: var(--adj); }
+
+  /* Card stack hero */
+  .stack { position: relative; margin: 6px 0 22px; }
+  .stack .deco {
+    position: absolute; inset: 0; border-radius: var(--radius);
+    background: var(--surface-2); border: 1px solid var(--line);
+  }
+  .stack .deco.d1 { transform: rotate(-3.2deg) translateY(4px); }
+  .stack .deco.d2 { transform: rotate(2.4deg) translateY(2px); }
+  .card {
+    position: relative; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 24px 22px;
+    min-height: 260px; display: flex; flex-direction: column;
+  }
+  .card::before {
+    content: ""; position: absolute; top: 14px; left: 18px; width: 10px; height: 10px;
+    border-radius: 50%; background: var(--bg); box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-left: 22px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600;
+    padding: 3px 9px; border-radius: 999px; letter-spacing: .01em;
+  }
+  .chip.V { background: var(--verb-soft); color: var(--verb); }
+  .chip.N { background: var(--nomen-soft); color: var(--nomen); }
+  .chip.A { background: var(--adj-soft); color: var(--adj); }
+  .chip.prio { background: var(--prio-soft); color: var(--prio); }
+  .chip.shared { background: var(--shared-soft); color: var(--shared); cursor: help; }
+  .fam-row { text-align: center; margin: -8px 0 14px; }
+  .session-bar { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .session-bar .bar-track { flex: 1; height: 4px; background: var(--line); border-radius: 999px; overflow: hidden; }
+  .session-bar .bar-fill { height: 100%; background: var(--prio); }
+  .streak-dots { display: flex; gap: 3px; }
+  .streak-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); display: block; }
+  .streak-dots i.fill { background: var(--ok); }
+
+  .word-label {
+    text-align: center; font-size: 12.5px; font-weight: 600; color: var(--ink-soft);
+    text-transform: none; margin-bottom: 2px;
+  }
+  .word {
+    font-family: 'Fraunces', serif; font-weight: 560; font-size: 21px; text-align: center;
+    line-height: 1.45; margin: 4px 0 6px; padding: 0 4px;
+  }
+  .word .blank { color: var(--ink-soft); border-bottom: 2px dashed var(--line); padding: 0 6px; }
+  .empty-state { text-align: center; color: var(--ink-soft); margin: auto; font-size: 14.5px; padding: 30px 10px; }
+
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; padding-top: 18px; }
+  .options button {
+    font: inherit; font-size: 16px; font-weight: 500; padding: 13px 8px; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); cursor: pointer;
+  }
+  .options button:hover:not(:disabled) { border-color: var(--ink-soft); }
+  .options button:focus-visible { outline: 2px solid var(--shared); outline-offset: 2px; }
+  .options button.correct { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+  .options button.wrong { background: var(--err-soft); border-color: var(--err); color: var(--err); }
+  .options button:disabled { cursor: default; opacity: .55; }
+  .options button:disabled.correct, .options button:disabled.wrong { opacity: 1; }
+
+  .feedback { margin-top: 16px; padding: 14px 16px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); }
+  .feedback .verdict { font-weight: 600; font-size: 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 7px; }
+  .feedback .verdict.ok { color: var(--ok); }
+  .feedback .verdict.err { color: var(--err); }
+  .feedback .ex { font-size: 15px; margin: 4px 0; }
+  .feedback .ex mark { background: none; color: var(--prio); font-weight: 600; }
+  .feedback .tr { font-size: 13.5px; color: var(--ink-soft); font-style: italic; margin: 0; }
+  .feedback .case-tag { font-size: 11px; color: var(--ink-soft); margin-top: 6px; display: inline-block; }
+  .feedback .next {
+    margin-top: 12px; font: inherit; font-size: 14px; font-weight: 600; padding: 9px 16px;
+    border-radius: 8px; border: none; background: var(--ink); color: var(--bg); cursor: pointer;
+  }
+
+  .queue-strip { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 4px; }
+  .qpill {
+    flex: 0 0 auto; font-size: 12px; padding: 5px 10px; border-radius: 999px; background: var(--surface);
+    border: 1px solid var(--line); color: var(--ink-soft); position: relative; overflow: hidden;
+  }
+  .qpill .fillbar { position: absolute; left: 0; bottom: 0; height: 2.5px; background: var(--ok); }
+  .qpill span { position: relative; }
+
+  details.grad { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); margin-bottom: 20px; }
+  details.grad > summary { padding: 11px 14px; cursor: pointer; font-size: 14px; font-weight: 600; list-style: none; display: flex; justify-content: space-between; }
+  details.grad > summary::-webkit-details-marker { display: none; }
+  .grad-list { padding: 0 14px 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .grad-item { font-size: 12.5px; background: var(--surface-2); border-radius: 8px; padding: 5px 9px; color: var(--ink-soft); }
+  .grad-item b { color: var(--ink); font-weight: 500; }
+
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .stat-card .num { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 620; }
+  .stat-card .lbl { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; }
+  table.problems { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.problems th { text-align: left; color: var(--ink-soft); font-weight: 500; font-size: 12px; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  table.problems td { padding: 8px; border-bottom: 1px solid var(--line); }
+  table.problems td.num { text-align: right; color: var(--ink-soft); }
+  .section-title { font-size: 13px; text-transform: none; color: var(--ink-soft); margin: 22px 0 10px; font-weight: 600; }
+
+  .overlay {
+    position: fixed; inset: 0; background: rgba(20,17,13,.45); display: flex; align-items: flex-end;
+    justify-content: center; z-index: 40; padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (min-width: 560px) { .overlay { align-items: center; } }
+  .sheet {
+    background: var(--surface); width: 100%; max-width: 480px; border-radius: 16px 16px 0 0;
+    padding: 20px 20px 26px; max-height: 86vh; overflow-y: auto;
+  }
+  @media (min-width: 560px) { .sheet { border-radius: 16px; } }
+  .sheet h2 { font-family: 'Fraunces', serif; font-size: 20px; margin: 0 0 16px; }
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .prep-grid { display: flex; flex-wrap: wrap; gap: 7px; }
+  .prep-toggle {
+    font-size: 13px; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--surface-2); color: var(--ink-soft); cursor: pointer;
+  }
+  .prep-toggle.on { background: var(--shared-soft); border-color: var(--shared); color: var(--shared); }
+  .stepper { display: flex; align-items: center; gap: 12px; }
+  .stepper button {
+    width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2);
+    font-size: 16px; cursor: pointer;
+  }
+  .stepper .val { font-size: 16px; font-weight: 600; min-width: 20px; text-align: center; }
+  .hint { font-size: 12px; color: var(--ink-soft); margin-top: 6px; }
+  .sheet .close { width: 100%; padding: 11px; border-radius: 10px; border: none; background: var(--ink); color: var(--bg); font: inherit; font-weight: 600; cursor: pointer; margin-top: 6px; }
+  .sheet .danger { width: 100%; padding: 11px; border-radius: 10px; border: 1px solid var(--err); background: var(--err-soft); color: var(--err); font: inherit; font-weight: 600; cursor: pointer; margin-top: 10px; }
+  .persist-note { font-size: 12px; color: var(--ink-soft); text-align: center; margin: 4px 0 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Präpositionen&#8209;Trainer</h1>
+      <p>Feste Präpositionen für B2 · Verben, Nomen, Adjektive</p>
+    </div>
+    <button class="icon" id="settingsBtn" aria-label="Einstellungen" title="Einstellungen">⚙</button>
+  </header>
+
+  <nav class="tabs">
+    <button class="active" data-view="practice">Üben</button>
+    <button data-view="progress">Fortschritt</button>
+  </nav>
+
+  <div id="practiceView">
+    <div class="catbar" id="catbar">
+      <button data-cat="all" class="on">Alle</button>
+      <button data-cat="V">Verben</button>
+      <button data-cat="N">Nomen</button>
+      <button data-cat="A">Adjektive</button>
+    </div>
+
+    <div class="session-bar" id="sessionBar"></div>
+    <div class="queue-strip" id="queueStrip"></div>
+
+    <div class="stack">
+      <div class="deco d1"></div>
+      <div class="deco d2"></div>
+      <div class="card" id="card"></div>
+    </div>
+
+    <details class="grad" id="gradDrawer">
+      <summary><span>Endlich verinnerlicht</span><span id="gradCount">0</span></summary>
+      <div class="grad-list" id="gradList"></div>
+    </details>
+  </div>
+
+  <div id="progressView" style="display:none;"></div>
+
+  <p class="persist-note" id="persistNote"></p>
+</div>
+
+<div class="overlay" id="settingsOverlay" style="display:none;">
+  <div class="sheet">
+    <h2>Einstellungen</h2>
+
+    <div class="field">
+      <label>Präpositionen-Pool (für Multiple-Choice-Optionen)</label>
+      <div class="prep-grid" id="prepGrid"></div>
+      <p class="hint">Abgewählte Präpositionen tauchen nicht mehr als falsche Optionen auf. Mindestens 4 müssen aktiv bleiben.</p>
+    </div>
+
+    <div class="field">
+      <label>Fragen pro Runde</label>
+      <div class="stepper">
+        <button data-step="session" data-delta="-1">−</button>
+        <span class="val" id="sessionVal">5</span>
+        <button data-step="session" data-delta="1">+</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Aktive Warteschlange (Karten gleichzeitig im Umlauf)</label>
+      <div class="stepper">
+        <button data-step="queue" data-delta="-1">−</button>
+        <span class="val" id="queueVal">6</span>
+        <button data-step="queue" data-delta="1">+</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Aufeinanderfolgende Treffer bis „verinnerlicht“</label>
+      <div class="stepper">
+        <button data-step="grad" data-delta="-1">−</button>
+        <span class="val" id="gradVal">4</span>
+        <button data-step="grad" data-delta="1">+</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label style="display:flex; align-items:center; gap:8px; font-weight:600;">
+        <input type="checkbox" id="forceSecondary" style="width:16px;height:16px;">
+        Zusatzwörter (nicht priorisiert) schon jetzt freischalten
+      </label>
+      <p class="hint">Normalerweise werden diese erst freigeschaltet, wenn alle rosa/rot markierten Wörter verinnerlicht sind.</p>
+    </div>
+
+    <button class="close" id="closeSettings">Fertig</button>
+    <button class="danger" id="resetBtn">Fortschritt zurücksetzen</button>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Datensatz (aus der Tabelle extrahiert, rosa/rot = prio) ---------- */
+// [cat, word, prep, case, example, translation, prio]
+var RAW = [
+["V","arbeiten an","an","D","Ich arbeite an einem neuen Projekt.","Trabajo en un proyecto nuevo.",0],
+["V","denken an","an","A","Ich denke oft an dich.","Pienso a menudo en ti.",0],
+["V","sich erinnern an","an","A","Ich erinnere mich an den Urlaub.","Recuerdo las vacaciones.",0],
+["V","sich gewöhnen an","an","A","Ich gewöhne mich an das Klima.","Me acostumbro al clima.",0],
+["V","glauben an","an","A","Ich glaube an dich.","Creo en ti.",0],
+["V","sich wenden an","an","A","Wenden Sie sich an den Kundendienst.","Diríjase al servicio de atención al cliente.",0],
+["V","teilnehmen an","an","D","Ich nehme an der Konferenz teil.","Participo en la conferencia.",0],
+["V","zweifeln an","an","D","Ich zweifle an seiner Ehrlichkeit.","Dudo de su honestidad.",1],
+["V","achten auf","auf","A","Achte auf deine Gesundheit.","Cuida tu salud.",0],
+["V","hoffen auf","auf","A","Ich hoffe auf gutes Wetter.","Espero buen tiempo.",0],
+["V","sich konzentrieren auf","auf","A","Konzentrier dich auf die Aufgabe.","Concéntrate en la tarea.",0],
+["V","sich freuen auf","auf","A","Ich freue mich auf die Ferien.","Me hace ilusión lo que se viene: las vacaciones.",0],
+["V","sich vorbereiten auf","auf","A","Ich bereite mich auf die Prüfung vor.","Me preparo para el examen.",0],
+["V","warten auf","auf","A","Ich warte auf den Bus.","Espero el autobús.",0],
+["V","verzichten auf","auf","A","Er verzichtet auf Alkohol.","Él renuncia al alcohol.",0],
+["V","sich freuen über","über","A","Ich freue mich über das Geschenk.","Me alegra el regalo que ya recibí.",0],
+["V","sich ärgern über","über","A","Ich ärgere mich über den Lärm.","Me molesta el ruido.",1],
+["V","sprechen über","über","A","Wir sprechen über das Wetter.","Hablamos sobre el clima.",1],
+["V","nachdenken über","über","A","Ich denke über das Problem nach.","Reflexiono sobre el problema.",0],
+["V","sich wundern über","über","A","Ich wundere mich über sein Verhalten.","Me sorprende su comportamiento.",0],
+["V","sich beschweren über","über","A","Er beschwert sich über den Service.","Se queja del servicio.",0],
+["V","warnen vor","vor","D","Sie warnt ihn vor der Gefahr.","Ella le advierte del peligro.",1],
+["V","helfen bei","bei","D","Ich helfe dir bei der Arbeit.","Te ayudo con el trabajo.",0],
+["V","beginnen mit","mit","D","Wir beginnen mit dem Projekt.","Empezamos con el proyecto.",1],
+["V","anfangen mit","mit","D","Ich fange mit der Arbeit an.","Empiezo con el trabajo.",0],
+["V","aufhören mit","mit","D","Ich höre mit dem Rauchen auf.","Dejo de fumar.",0],
+["V","fragen nach","nach","D","Er fragt nach dem Weg.","Él pregunta por el camino.",1],
+["V","suchen nach","nach","D","Ich suche nach meinem Schlüssel.","Busco mi llave.",0],
+["V","abhängen von","von","D","Es hängt von dir ab.","Depende de ti.",0],
+["V","erzählen von","von","D","Erzähl mir von deiner Reise.","Cuéntame sobre tu viaje.",0],
+["V","passen zu","zu","D","Die Schuhe passen zu dem Kleid.","Los zapatos combinan con el vestido.",0],
+["V","sich bedanken für","für","A","Ich bedanke mich für das Geschenk.","Agradezco el regalo.",0],
+["V","sich interessieren für","für","A","Ich interessiere mich für Kunst.","Me interesa el arte.",0],
+["V","sorgen für","für","A","Sie sorgt für ihre Kinder.","Ella cuida de sus hijos.",0],
+["V","sich streiten um","um","A","Sie streiten sich um das Geld.","Se pelean por el dinero.",1],
+["V","sich sorgen um","um","A","Ich sorge mich um meine Familie.","Me preocupo por mi familia.",1],
+["V","sich kümmern um","um","A","Ich kümmere mich um den Garten.","Me ocupo del jardín.",0],
+["V","bitten um","um","A","Ich bitte um Hilfe.","Pido ayuda.",1],
+["N","Interesse an","an","D","Ich habe Interesse an dem Kurs.","Tengo interés en el curso.",0],
+["N","Freude an","an","D","Ich habe Freude an der Arbeit.","Disfruto del trabajo.",0],
+["N","Mangel an","an","D","Es gibt einen Mangel an Fachkräften.","Hay una falta de personal cualificado.",0],
+["N","Zweifel an","an","D","Ich habe Zweifel an seiner Aussage.","Tengo dudas sobre su declaración.",0],
+["N","Erinnerung an","an","A","Das ist eine schöne Erinnerung an meine Kindheit.","Es un bonito recuerdo de mi infancia.",1],
+["N","Arbeit an","an","D","Die Arbeit an dem Projekt macht Spaß.","El trabajo en el proyecto es divertido.",1],
+["N","Kritik an","an","D","Er übt Kritik an der Regierung.","Él critica al gobierno.",1],
+["N","Einfluss auf","auf","A","Das Wetter hat Einfluss auf die Ernte.","El clima influye en la cosecha.",1],
+["N","Hoffnung auf","auf","A","Sie hat Hoffnung auf Erfolg.","Ella tiene esperanza de éxito.",1],
+["N","Reaktion auf","auf","A","Die Reaktion auf die Nachricht war stark.","La reacción a la noticia fue fuerte.",0],
+["N","Rücksicht auf","auf","A","Nimm Rücksicht auf andere.","Ten consideración con los demás.",0],
+["N","Verzicht auf","auf","A","Der Verzicht auf Fleisch fällt ihm leicht.","Renunciar a la carne le resulta fácil.",0],
+["N","Antwort auf","auf","A","Ich warte auf eine Antwort auf meine Frage.","Espero una respuesta a mi pregunta.",0],
+["N","Freude über","über","A","Die Freude über den Sieg war groß.","La alegría por la victoria fue grande.",0],
+["N","Ärger über","über","A","Der Ärger über die Verspätung war groß.","El enojo por el retraso fue grande.",0],
+["N","Bericht über","über","A","Er schreibt einen Bericht über die Reise.","Escribe un informe sobre el viaje.",0],
+["N","Diskussion über","über","A","Die Diskussion über das Thema war lang.","La discusión sobre el tema fue larga.",0],
+["N","Einfluss von","von","D","Der Einfluss von Social Media ist groß.","La influencia de las redes sociales es grande.",1],
+["N","Abschied von","von","D","Der Abschied von meinen Freunden war schwer.","La despedida de mis amigos fue difícil.",0],
+["N","Beziehung zu","zu","D","Meine Beziehung zu ihm ist gut.","Mi relación con él es buena.",0],
+["N","Vertrauen zu","zu","D","Ich habe Vertrauen zu dir.","Tengo confianza en ti.",0],
+["N","Verbindung zu","zu","D","Er hat eine gute Verbindung zu seinem Chef.","Tiene una buena conexión con su jefe.",1],
+["N","Verantwortung für","für","A","Er trägt Verantwortung für das Projekt.","Él es responsable del proyecto.",0],
+["N","Interesse für","für","A","Ich habe Interesse für Musik.","Tengo interés por la música.",0],
+["N","Dank für","für","A","Mein Dank für deine Hilfe.","Mi agradecimiento por tu ayuda.",0],
+["N","Verständnis für","für","A","Ich habe Verständnis für deine Situation.","Tengo comprensión hacia tu situación.",1],
+["N","Erfahrung mit","mit","D","Ich habe Erfahrung mit diesem Programm.","Tengo experiencia con este programa.",0],
+["N","Kontakt mit","mit","D","Ich habe Kontakt mit alten Freunden.","Tengo contacto con viejos amigos.",0],
+["N","Problem mit","mit","D","Ich habe ein Problem mit dem Computer.","Tengo un problema con la computadora.",0],
+["N","Frage nach","nach","D","Die Frage nach dem Sinn bleibt offen.","La pregunta sobre el sentido queda abierta.",0],
+["N","Suche nach","nach","D","Die Suche nach der Lösung dauert lange.","La búsqueda de la solución tarda mucho.",0],
+["N","Bedürfnis nach","nach","D","Er hat ein Bedürfnis nach Ruhe.","Tiene una necesidad de tranquilidad.",0],
+["N","Verfügung zu","zu","D","Ich stehe dir zur Verfügung.","Estoy a tu disposición.",0],
+["A","neidisch auf","auf","A","Er ist neidisch auf seinen Bruder.","Está celoso de su hermano.",0],
+["A","stolz auf","auf","A","Sie ist stolz auf ihre Tochter.","Está orgullosa de su hija.",0],
+["A","gespannt auf","auf","A","Ich bin gespannt auf das Ergebnis.","Tengo curiosidad por el resultado.",1],
+["A","wütend auf","auf","A","Ich bin wütend auf dich.","Estoy enojado contigo.",0],
+["A","interessiert an","an","D","Ich bin interessiert an der Stelle.","Estoy interesado en el puesto.",0],
+["A","reich an","an","D","Das Land ist reich an Bodenschätzen.","El país es rico en recursos naturales.",0],
+["A","beteiligt an","an","D","Er ist an dem Projekt beteiligt.","Está involucrado en el proyecto.",0],
+["A","verärgert über","über","A","Ich bin verärgert über die Verspätung.","Estoy molesto por el retraso.",1],
+["A","fertig mit","mit","D","Bist du fertig mit der Arbeit?","¿Terminaste el trabajo?",1],
+["A","zufrieden mit","mit","D","Ich bin zufrieden mit dem Ergebnis.","Estoy satisfecho con el resultado.",0],
+["A","einverstanden mit","mit","D","Ich bin einverstanden mit dem Plan.","Estoy de acuerdo con el plan.",0],
+["A","abhängig von","von","D","Kinder sind abhängig von ihren Eltern.","Los niños dependen de sus padres.",1],
+["A","begeistert von","von","D","Ich bin begeistert von dem Film.","Estoy entusiasmado con la película.",0],
+["A","enttäuscht von","von","D","Ich bin enttäuscht von dir.","Estoy decepcionado de ti.",1],
+["A","dankbar für","für","A","Ich bin dankbar für deine Hilfe.","Estoy agradecido por tu ayuda.",1],
+["A","verantwortlich für","für","A","Er ist verantwortlich für das Team.","Es responsable del equipo.",1],
+["A","offen für","für","A","Sie ist offen für neue Ideen.","Ella está abierta a nuevas ideas.",1],
+["A","fähig zu","zu","D","Er ist fähig zu großen Leistungen.","Es capaz de grandes logros.",0]
+];
+
+var WORDS = RAW.map(function(r,i){
+  return {id:"w"+i, cat:r[0], word:r[1], prep:r[2], kase:r[3], ex:r[4], tr:r[5], prio: r[6]===1};
+});
+var BASE_PREPS = ["an","auf","in","über","vor","bei","mit","nach","von","zu","für","um"];
+var CAT_LABEL = {V:"Verb", N:"Nomen", A:"Adjektiv"};
+
+// Wortfamilien: gleiche Präposition bei Verb/Nomen/Adjektiv desselben Wortstamms
+// (das sind die hellblau markierten Zellen aus deiner Tabelle)
+var FAM_MAP = {
+  "zweifeln an":"zweifel", "Zweifel an":"zweifel",
+  "sich ärgern über":"aerger", "Ärger über":"aerger",
+  "sich freuen über":"freude", "Freude über":"freude",
+  "verzichten auf":"verzicht", "Verzicht auf":"verzicht",
+  "abhängen von":"abhaeng", "abhängig von":"abhaeng",
+  "sich interessieren für":"interfuer", "Interesse für":"interfuer",
+  "sich bedanken für":"dank", "Dank für":"dank", "dankbar für":"dank",
+  "Erinnerung an":"erinner", "sich erinnern an":"erinner",
+  "Hoffnung auf":"hoffnung", "hoffen auf":"hoffnung",
+  "Verantwortung für":"verantwort", "verantwortlich für":"verantwort"
+};
+WORDS.forEach(function(w){ w.fam = FAM_MAP[w.word] || null; });
+function famSiblings(w){
+  if(!w.fam) return [];
+  return WORDS.filter(function(o){ return o.fam===w.fam && o.id!==w.id; });
+}
+
+/* ---------- Zustand ---------- */
+var state = {
+  progress: {},      // id -> {streak, graduated, correct, wrong}
+  queue: [],          // aktive Wortliste (ids)
+  settings: { queueSize: 6, gradThreshold: 4, sessionLength: 5, activePreps: BASE_PREPS.slice(), forceSecondary: false }
+};
+var session = { active: false, index: 0, length: 5, correct: 0, wrong: 0, graduatedNames: [] };
+var currentCat = "all";
+var currentWordId = null;
+var lastWordId = null;
+var answered = false;
+var dbHandle = null, userHandle = null, uid = null;
+
+function defaultProgress(){ return { streak: 0, graduated: false, correct: 0, wrong: 0 }; }
+function getP(id){ if(!state.progress[id]) state.progress[id] = defaultProgress(); return state.progress[id]; }
+function rotateQueueForNewRound(){
+  // Nur Wörter behalten, an denen schon gearbeitet wird (Streak > 0) — der Rest
+  // rotiert raus, damit jede neue Runde auch andere Wörter aus dem Pool zeigt.
+  var elig = eligible(currentCat);
+  var eligIds = elig.map(function(w){return w.id;});
+  state.queue = state.queue.filter(function(id){
+    return eligIds.indexOf(id)>-1 && getP(id).streak > 0;
+  });
+  ensureQueueFilled();
+}
+function startRound(){
+  session.active = true; session.index = 0; session.length = state.settings.sessionLength;
+  session.correct = 0; session.wrong = 0; session.graduatedNames = [];
+  currentWordId = null;
+  try{ rotateQueueForNewRound(); } catch(e){ console.error("rotateQueueForNewRound:", e); }
+  renderCard();
+}
+
+/* ---------- Persistenz ---------- */
+async function initStorage(){
+  try{
+    dbHandle = await claude.use("db");
+    userHandle = await claude.use("user");
+    if(dbHandle && userHandle){
+      uid = await userHandle.id();
+      var snap = uid ? await dbHandle.doc("data/users/"+uid+"/praep-trainer").get().catch(function(){return null;}) : null;
+      if(snap && snap.exists){
+        // snap.data() liefert eingefrorene Objekte — vor der Nutzung als
+        // veränderlichen State klonen, sonst wirft jede spätere Änderung.
+        var d = JSON.parse(JSON.stringify(snap.data() || {}));
+        if(d.progress) state.progress = d.progress;
+        if(d.queue) state.queue = d.queue;
+        if(d.settings) Object.assign(state.settings, d.settings);
+      }
+      if(!uid){
+        document.getElementById("persistNote").textContent = "Fortschritt wird nur für diese Sitzung gehalten (keine Nutzerkennung verfügbar).";
+        dbHandle = null;
+      } else {
+        document.getElementById("persistNote").textContent = "Dein Fortschritt wird automatisch gespeichert.";
+      }
+    } else {
+      document.getElementById("persistNote").textContent = "Fortschritt wird nur für diese Sitzung gehalten (keine Speicher-Verbindung verfügbar).";
+    }
+  } catch(e){
+    document.getElementById("persistNote").textContent = "Fortschritt wird nur für diese Sitzung gehalten.";
+  }
+}
+var saveTimer = null;
+function persist(){
+  if(!dbHandle || !uid) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    dbHandle.doc("data/users/"+uid+"/praep-trainer").set({
+      progress: state.progress, queue: state.queue, settings: state.settings
+    }).catch(function(){});
+  }, 350);
+}
+
+/* ---------- Warteschlangen-Logik ---------- */
+function isGraduated(id){ return !!(state.progress[id] && state.progress[id].graduated); }
+function eligible(cat){
+  return WORDS.filter(function(w){ return (cat==="all"||w.cat===cat) && !isGraduated(w.id); });
+}
+function ensureQueueFilled(){
+  var elig = eligible(currentCat);
+  var eligIds = elig.map(function(w){return w.id;});
+  state.queue = state.queue.filter(function(id){ return eligIds.indexOf(id)>-1; });
+  while(state.queue.length < state.settings.queueSize){
+    var prioAll = elig.filter(function(w){ return w.prio; });
+    var prioNotQueued = prioAll.filter(function(w){ return state.queue.indexOf(w.id)===-1; });
+    var candidate = null;
+    if(prioNotQueued.length){
+      candidate = prioNotQueued[Math.floor(Math.random()*prioNotQueued.length)];
+    } else if(prioAll.length===0 || state.settings.forceSecondary){
+      var secNotQueued = elig.filter(function(w){ return !w.prio && state.queue.indexOf(w.id)===-1; });
+      if(!secNotQueued.length) break;
+      candidate = secNotQueued[Math.floor(Math.random()*secNotQueued.length)];
+    } else break;
+    state.queue.push(candidate.id);
+  }
+}
+function pickCard(){
+  var pool = state.queue.filter(function(id){ return id !== lastWordId; });
+  if(!pool.length) pool = state.queue.slice();
+  if(!pool.length) return null;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+/* ---------- Rendering: Karte ---------- */
+function wordById(id){ return WORDS.filter(function(w){return w.id===id;})[0]; }
+
+function blankToken(word, prep, token){
+  // \b funktioniert nicht mit Umlauten am Wortanfang (ü in "über"), daher Leerzeichen-Grenzen
+  var d = word.replace(new RegExp("(^|\\s)"+prep+"(?=\\s|$)"), function(m, pre){ return pre + token; });
+  if(d===word) d = word + " " + token;
+  return d;
+}
+function renderQueueStrip(){
+  var el = document.getElementById("queueStrip");
+  el.innerHTML = "";
+  state.queue.forEach(function(id){
+    var w = wordById(id); if(!w) return;
+    var p = getP(id);
+    var pct = Math.min(100, Math.round((p.streak/state.settings.gradThreshold)*100));
+    var pill = document.createElement("div");
+    pill.className = "qpill";
+    pill.innerHTML = '<span>'+blankToken(w.word, w.prep, "···")+'</span><div class="fillbar" style="width:'+pct+'%"></div>';
+    el.appendChild(pill);
+  });
+}
+
+function renderGraduated(){
+  var grads = WORDS.filter(function(w){ return isGraduated(w.id); });
+  document.getElementById("gradCount").textContent = grads.length;
+  var list = document.getElementById("gradList");
+  list.innerHTML = grads.length ? "" : '<span class="hint">Noch keine Wörter verinnerlicht — weiter üben!</span>';
+  grads.forEach(function(w){
+    var d = document.createElement("div");
+    d.className = "grad-item";
+    d.innerHTML = (w.fam ? "🔁 " : "") + w.word.replace(w.prep,"") + "<b> "+w.prep+"</b>";
+    list.appendChild(d);
+  });
+}
+
+function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t;} return a; }
+
+function renderStartScreen(cardEl){
+  var gradCount = WORDS.filter(function(w){ return isGraduated(w.id); }).length;
+  document.getElementById("sessionBar").innerHTML = "";
+  cardEl.innerHTML =
+    '<div class="empty-state" style="margin:auto;">'+
+      '<div style="font-family:\'Fraunces\',serif;font-size:21px;color:var(--ink);margin-bottom:8px;">Neue Runde</div>'+
+      '<p style="margin:0 0 4px;">'+state.settings.sessionLength+' zufällige Fragen aus der aktuellen Kategorie.</p>'+
+      '<p class="hint" style="margin:0 0 18px;">Bisher verinnerlicht: '+gradCount+' / '+WORDS.length+'</p>'+
+      '<button class="next" id="startRoundBtn">Runde starten</button>'+
+    '</div>';
+  document.getElementById("startRoundBtn").addEventListener("click", startRound);
+}
+
+function renderSummaryScreen(cardEl){
+  document.getElementById("sessionBar").innerHTML = "";
+  var gradHtml = session.graduatedNames.length
+    ? '<p class="hint">Neu verinnerlicht: '+session.graduatedNames.join(", ")+'</p>'
+    : "";
+  cardEl.innerHTML =
+    '<div class="empty-state" style="margin:auto;">'+
+      '<div style="font-family:\'Fraunces\',serif;font-size:21px;color:var(--ink);margin-bottom:8px;">Runde beendet</div>'+
+      '<p style="margin:0 0 4px;font-size:16px;color:var(--ink);">'+session.correct+' von '+session.length+' richtig</p>'+
+      gradHtml+
+      '<button class="next" id="newRoundBtn" style="margin-top:14px;">Neue Runde starten</button>'+
+    '</div>';
+  document.getElementById("newRoundBtn").addEventListener("click", startRound);
+}
+
+function renderCard(){
+  try{ renderCardInner(); }
+  catch(e){
+    console.error("renderCard:", e);
+    var cardEl2 = document.getElementById("card");
+    if(cardEl2){
+      cardEl2.innerHTML =
+        '<div class="empty-state" style="margin:auto;">'+
+          '<div style="color:var(--err);font-weight:600;margin-bottom:8px;">Etwas ist schiefgelaufen.</div>'+
+          '<p class="hint" style="margin:0 0 16px;">'+((e&&e.message)?e.message:String(e))+'</p>'+
+          '<button class="next" id="errReloadBtn">Seite neu laden</button>'+
+        '</div>';
+      var eb = document.getElementById("errReloadBtn");
+      if(eb) eb.addEventListener("click", function(){ location.reload(); });
+    }
+  }
+}
+function renderCardInner(){
+  var cardEl = document.getElementById("card");
+
+  if(!session.active){
+    renderGraduated();
+    renderStartScreen(cardEl);
+    document.getElementById("queueStrip").innerHTML = "";
+    return;
+  }
+  if(session.index >= session.length){
+    renderGraduated();
+    renderSummaryScreen(cardEl);
+    document.getElementById("queueStrip").innerHTML = "";
+    return;
+  }
+
+  document.getElementById("sessionBar").innerHTML =
+    'Frage '+(session.index+1)+' / '+session.length+
+    '<div class="bar-track"><div class="bar-fill" style="width:'+Math.round(100*session.index/session.length)+'%"></div></div>';
+
+  ensureQueueFilled();
+  renderQueueStrip();
+  renderGraduated();
+
+  if(!state.queue.length){
+    cardEl.innerHTML =
+      '<div class="empty-state" style="margin:auto;">Keine Wörter mehr übrig in dieser Kategorie.<br>'+
+      '<button class="next" id="endRoundBtn" style="margin-top:14px;">Runde beenden</button></div>';
+    document.getElementById("endRoundBtn").addEventListener("click", function(){
+      session.index = session.length; renderCard();
+    });
+    return;
+  }
+  if(!currentWordId || state.queue.indexOf(currentWordId)===-1){
+    currentWordId = pickCard();
+  }
+  var w = wordById(currentWordId);
+  var p = getP(w.id);
+  answered = false;
+
+  var dots = "";
+  for(var i=0;i<state.settings.gradThreshold;i++){
+    dots += '<i class="'+(i<p.streak?'fill':'')+'"></i>';
+  }
+
+  var opts = shuffle([w.prep].concat(
+    shuffle(state.settings.activePreps.filter(function(p2){return p2!==w.prep;})).slice(0,3)
+  ));
+  while(opts.length<4 && opts.length < BASE_PREPS.length){
+    var extra = BASE_PREPS.filter(function(p2){return opts.indexOf(p2)===-1;});
+    if(!extra.length) break;
+    opts.push(extra[Math.floor(Math.random()*extra.length)]);
+  }
+
+  var wordLabel = blankToken(w.word, w.prep, '<span class="blank">___</span>');
+  var display = blankToken(w.ex, w.prep, '<span class="blank">___</span>');
+
+  var sibs = famSiblings(w);
+  var famChip = sibs.length
+    ? '<div class="fam-row"><span class="chip shared" title="Gleiche Präposition wie bei: '+
+      sibs.map(function(s){return s.word+' ('+CAT_LABEL[s.cat]+')';}).join(', ')+
+      '">🔁 '+w.prep+' auch bei '+sibs.map(function(s){return CAT_LABEL[s.cat];}).join('/')+'</span></div>'
+    : "";
+
+  cardEl.innerHTML =
+    '<div class="card-top">'+
+      '<span class="chip '+w.cat+'">'+CAT_LABEL[w.cat]+'</span>'+
+      '<div class="streak-dots">'+dots+'</div>'+
+    '</div>'+
+    famChip+
+    '<div class="word-label">'+wordLabel+'</div>'+
+    '<div class="word">'+display+'</div>'+
+    '<div class="options" id="opts"></div>'+
+    '<div id="fbSlot"></div>';
+
+  var optsEl = document.getElementById("opts");
+  opts.forEach(function(p2){
+    var b = document.createElement("button");
+    b.textContent = p2;
+    b.addEventListener("click", function(){ handleAnswer(p2, w, b, optsEl); });
+    optsEl.appendChild(b);
+  });
+}
+
+function handleAnswer(chosen, w, btn, optsEl){
+  if(answered) return;
+  answered = true;
+  lastWordId = w.id;
+  var correct = chosen === w.prep;
+  var p = getP(w.id);
+  if(correct){ p.streak += 1; p.correct += 1; session.correct += 1; } else { p.streak = 0; p.wrong += 1; session.wrong += 1; }
+
+  Array.prototype.forEach.call(optsEl.children, function(b){
+    b.disabled = true;
+    if(b.textContent === w.prep) b.classList.add("correct");
+    else if(b===btn) b.classList.add("wrong");
+  });
+
+  var graduated = false;
+  if(p.streak >= state.settings.gradThreshold){
+    p.graduated = true; graduated = true;
+    session.graduatedNames.push(w.word);
+    state.queue = state.queue.filter(function(id){ return id!==w.id; });
+  }
+  persist();
+
+  var sibs = famSiblings(w);
+  var famNote = sibs.length
+    ? '<p class="case-tag">🔁 gleiche Präposition: '+sibs.map(function(s){return s.word;}).join(', ')+'</p>'
+    : "";
+  var exHtml = w.ex.replace(new RegExp("("+w.prep+")","i"), "<mark>$1</mark>");
+  var fb = document.createElement("div");
+  fb.className = "feedback";
+  fb.innerHTML =
+    '<div class="verdict '+(correct?'ok':'err')+'">'+(correct?'✓ Richtig':'✗ Nicht ganz')+
+      (graduated ? ' · endlich verinnerlicht!' : '')+'</div>'+
+    '<p class="ex">'+exHtml+'</p>'+
+    '<p class="tr">'+w.tr+'</p>'+
+    '<span class="case-tag">'+w.word+' ('+(w.kase==='A'?'Akkusativ':'Dativ')+')</span>'+
+    famNote+
+    '<button class="next">Weiter</button>';
+  document.getElementById("fbSlot").appendChild(fb);
+  fb.querySelector(".next").addEventListener("click", function(){
+    session.index += 1;
+    currentWordId = null;
+    renderCard();
+  });
+}
+
+/* ---------- Fortschrittsansicht ---------- */
+function renderProgress(){
+  var el = document.getElementById("progressView");
+  var total = WORDS.length;
+  var gradCount = WORDS.filter(function(w){return isGraduated(w.id);}).length;
+  var correct=0, wrong=0;
+  WORDS.forEach(function(w){ var p=state.progress[w.id]; if(p){ correct+=p.correct; wrong+=p.wrong; } });
+  var acc = (correct+wrong) ? Math.round(100*correct/(correct+wrong)) : 0;
+
+  var problems = WORDS
+    .filter(function(w){ var p=state.progress[w.id]; return p && p.wrong>0; })
+    .map(function(w){ var p=state.progress[w.id]; return {w:w, wrong:p.wrong, correct:p.correct}; })
+    .sort(function(a,b){ return b.wrong-a.wrong; })
+    .slice(0,8);
+
+  var rows = problems.map(function(r){
+    return '<tr><td>'+r.w.word+' <span style="color:var(--ink-soft)">('+r.w.prep+')</span></td>'+
+      '<td class="num">'+r.correct+'</td><td class="num">'+r.wrong+'</td></tr>';
+  }).join("");
+
+  el.innerHTML =
+    '<div class="stats-grid">'+
+      '<div class="stat-card"><div class="num">'+gradCount+' / '+total+'</div><div class="lbl">verinnerlicht</div></div>'+
+      '<div class="stat-card"><div class="num">'+acc+'%</div><div class="lbl">Trefferquote gesamt</div></div>'+
+    '</div>'+
+    '<div class="section-title">Wörter, die noch Probleme machen</div>'+
+    (rows ? '<table class="problems"><tr><th>Wort</th><th>Richtig</th><th>Falsch</th></tr>'+rows+'</table>'
+          : '<p class="hint">Noch keine Fehler erfasst — oder alle schon gemeistert.</p>');
+}
+
+/* ---------- Einstellungen ---------- */
+function renderPrepGrid(){
+  var grid = document.getElementById("prepGrid");
+  grid.innerHTML = "";
+  BASE_PREPS.forEach(function(p){
+    var on = state.settings.activePreps.indexOf(p)>-1;
+    var b = document.createElement("button");
+    b.className = "prep-toggle"+(on?" on":"");
+    b.textContent = p;
+    b.addEventListener("click", function(){
+      var idx = state.settings.activePreps.indexOf(p);
+      if(idx>-1){
+        if(state.settings.activePreps.length<=4) return;
+        state.settings.activePreps.splice(idx,1);
+      } else {
+        state.settings.activePreps.push(p);
+      }
+      persist();
+      renderPrepGrid();
+    });
+    grid.appendChild(b);
+  });
+}
+function refreshStepperLabels(){
+  document.getElementById("queueVal").textContent = state.settings.queueSize;
+  document.getElementById("gradVal").textContent = state.settings.gradThreshold;
+  document.getElementById("sessionVal").textContent = state.settings.sessionLength;
+  document.getElementById("forceSecondary").checked = state.settings.forceSecondary;
+}
+
+/* ---------- Wiring ---------- */
+document.querySelectorAll("nav.tabs button").forEach(function(b){
+  b.addEventListener("click", function(){
+    document.querySelectorAll("nav.tabs button").forEach(function(x){x.classList.remove("active");});
+    b.classList.add("active");
+    var view = b.dataset.view;
+    document.getElementById("practiceView").style.display = view==="practice" ? "" : "none";
+    document.getElementById("progressView").style.display = view==="progress" ? "" : "none";
+    if(view==="progress") renderProgress();
+  });
+});
+document.querySelectorAll(".catbar button").forEach(function(b){
+  b.addEventListener("click", function(){
+    document.querySelectorAll(".catbar button").forEach(function(x){x.classList.remove("on");});
+    b.classList.add("on");
+    currentCat = b.dataset.cat;
+    currentWordId = null;
+    session.active = false; session.index = 0;
+    renderCard();
+  });
+});
+document.getElementById("settingsBtn").addEventListener("click", function(){
+  renderPrepGrid(); refreshStepperLabels();
+  document.getElementById("settingsOverlay").style.display = "flex";
+});
+document.getElementById("closeSettings").addEventListener("click", function(){
+  document.getElementById("settingsOverlay").style.display = "none";
+});
+document.getElementById("settingsOverlay").addEventListener("click", function(e){
+  if(e.target.id==="settingsOverlay") document.getElementById("settingsOverlay").style.display = "none";
+});
+document.querySelectorAll("[data-step]").forEach(function(b){
+  b.addEventListener("click", function(){
+    var step = b.dataset.step;
+    var key = step==="queue" ? "queueSize" : step==="grad" ? "gradThreshold" : "sessionLength";
+    var min = step==="queue" ? 4 : step==="grad" ? 2 : 5;
+    var max = step==="queue" ? 10 : step==="grad" ? 5 : 30;
+    var v = state.settings[key] + parseInt(b.dataset.delta,10);
+    v = Math.max(min, Math.min(max, v));
+    state.settings[key] = v;
+    refreshStepperLabels();
+    persist();
+    if(!session.active) renderCard();
+  });
+});
+document.getElementById("forceSecondary").addEventListener("change", function(e){
+  state.settings.forceSecondary = e.target.checked;
+  persist();
+  renderCard();
+});
+var resetArmed = false;
+document.getElementById("resetBtn").addEventListener("click", function(e){
+  if(!resetArmed){
+    resetArmed = true;
+    e.target.textContent = "Wirklich? Nochmal klicken zum Bestätigen";
+    setTimeout(function(){ resetArmed=false; e.target.textContent="Fortschritt zurücksetzen"; }, 4000);
+    return;
+  }
+  state.progress = {};
+  state.queue = [];
+  currentWordId = null;
+  session.active = false; session.index = 0;
+  resetArmed = false;
+  e.target.textContent = "Fortschritt zurücksetzen";
+  persist();
+  document.getElementById("settingsOverlay").style.display = "none";
+  renderCard();
+});
+
+/* ---------- Start ---------- */
+// Sofort rendern (Start-Bildschirm), damit nie eine leere Karte erscheint,
+// auch wenn die Speicher-Verbindung langsam ist. Danach im Hintergrund laden.
+renderCard();
+initStorage().then(function(){
+  if(!session.active) renderCard();
+});
+})();
+</script>
+</body>
+</html>

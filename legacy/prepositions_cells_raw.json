@@ -1,0 +1,726 @@
+{
+ "source": "DEU25 > sheet \"Präpositionen\", range A59:Q93 (cell by cell, exactly as in the sheet)",
+ "cells": [
+  {
+   "cell": "B63",
+   "text": "arbeiten an neue API //work",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C63",
+   "text": "achten auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E63",
+   "text": "sich ärgern über",
+   "fill": "FFCFE2F3",
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "H63",
+   "text": "beginnen mit",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "mit"
+  },
+  {
+   "cell": "J63",
+   "text": "abhängen von",
+   "fill": "FFC9DAF8",
+   "bold": false,
+   "prep_column": "von"
+  },
+  {
+   "cell": "L63",
+   "text": "danke für etw",
+   "fill": "FFC9DAF8",
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "C64",
+   "text": "sich verbessern auf B2.Niveau",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E64",
+   "text": "sprechen über",
+   "fill": "FFFF00FF",
+   "bold": true,
+   "prep_column": "über"
+  },
+  {
+   "cell": "H64",
+   "text": "anfangen mit, ==",
+   "fill": null,
+   "bold": true,
+   "prep_column": "mit"
+  },
+  {
+   "cell": "I64",
+   "text": "fragen nach",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "nach"
+  },
+  {
+   "cell": "K64",
+   "text": "passen",
+   "fill": null,
+   "bold": false,
+   "prep_column": "zu"
+  },
+  {
+   "cell": "M64",
+   "text": "bitten um...etw",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "um"
+  },
+  {
+   "cell": "B65",
+   "text": "denken an",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "H65",
+   "text": "aufhören mit",
+   "fill": null,
+   "bold": false,
+   "prep_column": "mit"
+  },
+  {
+   "cell": "I65",
+   "text": "suchen nach",
+   "fill": null,
+   "bold": false,
+   "prep_column": "nach"
+  },
+  {
+   "cell": "J65",
+   "text": "fordern VON",
+   "fill": "FFFFE599",
+   "bold": false,
+   "prep_column": "von"
+  },
+  {
+   "cell": "L65",
+   "text": "sich bedanken für",
+   "fill": null,
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B66",
+   "text": "sich erinnern an",
+   "fill": "FFF9CB9C",
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C66",
+   "text": "hoffen auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E66",
+   "text": "sich freuen über",
+   "fill": "FFC9DAF8",
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "G66",
+   "text": "helfen bei",
+   "fill": null,
+   "bold": false,
+   "prep_column": "bei"
+  },
+  {
+   "cell": "K66",
+   "text": "führen ZU",
+   "fill": "FFFFE599",
+   "bold": false,
+   "prep_column": "zu"
+  },
+  {
+   "cell": "L66",
+   "text": "sich interessieren für",
+   "fill": null,
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "C67",
+   "text": "sich konzentrieren auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E67",
+   "text": "nachdenken über",
+   "fill": "FFFFD966",
+   "bold": true,
+   "prep_column": "über"
+  },
+  {
+   "cell": "G67",
+   "text": "jemanden bitten bei",
+   "fill": null,
+   "bold": false,
+   "prep_column": "bei"
+  },
+  {
+   "cell": "J67",
+   "text": "erzählen von !",
+   "fill": null,
+   "bold": false,
+   "prep_column": "von"
+  },
+  {
+   "cell": "L67",
+   "text": "sorgen für",
+   "fill": null,
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B68",
+   "text": "sich gewöhnen an",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C68",
+   "text": "sich freuen",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "F68",
+   "text": "warnen vor",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "vor"
+  },
+  {
+   "cell": "L68",
+   "text": "sich entscheiden für",
+   "fill": "FFFFE599",
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B69",
+   "text": "galuben an",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "E69",
+   "text": "sich wundern über",
+   "fill": null,
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "M69",
+   "text": "sich streiten um",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "um"
+  },
+  {
+   "cell": "B70",
+   "text": "sich wenden an",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "M70",
+   "text": "sich sorgen um",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "um"
+  },
+  {
+   "cell": "B71",
+   "text": "teilnehmen an",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C71",
+   "text": "sich vorbereiten auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "M71",
+   "text": "sich kümmern um",
+   "fill": null,
+   "bold": false,
+   "prep_column": "um"
+  },
+  {
+   "cell": "B72",
+   "text": "zweifeln an",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C72",
+   "text": "warten auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "B73",
+   "text": "anschliessen an + Akk",
+   "fill": "FFFFE599",
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C73",
+   "text": "verzichten auf",
+   "fill": "FFC9DAF8",
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E73",
+   "text": "sich beschweren über",
+   "fill": null,
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "L74",
+   "text": "Zeit für etwas",
+   "fill": "FF00FF00",
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "J75",
+   "text": "Abschied von",
+   "fill": null,
+   "bold": false,
+   "prep_column": "von"
+  },
+  {
+   "cell": "K75",
+   "text": "Beziehung zu",
+   "fill": "FFFFFF00",
+   "bold": false,
+   "prep_column": "zu"
+  },
+  {
+   "cell": "L75",
+   "text": "Iteresse für",
+   "fill": null,
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B76",
+   "text": "Interesse an",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C76",
+   "text": "Einfluss auf",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "D76",
+   "text": "der Anzeige",
+   "fill": null,
+   "bold": false,
+   "prep_column": "in"
+  },
+  {
+   "cell": "E76",
+   "text": "Akk",
+   "fill": null,
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "J76",
+   "text": "Einfluss von",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "von"
+  },
+  {
+   "cell": "K76",
+   "text": "Vertrauten zu",
+   "fill": null,
+   "bold": false,
+   "prep_column": "zu"
+  },
+  {
+   "cell": "L76",
+   "text": "Verantworung für",
+   "fill": null,
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B77",
+   "text": "Freude an",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C77",
+   "text": "Hoffnung auf",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E77",
+   "text": "Freude über",
+   "fill": "FFC9DAF8",
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "H77",
+   "text": "Ehrfahrung mit",
+   "fill": null,
+   "bold": false,
+   "prep_column": "mit"
+  },
+  {
+   "cell": "I77",
+   "text": "Frage nach",
+   "fill": null,
+   "bold": false,
+   "prep_column": "nach"
+  },
+  {
+   "cell": "L77",
+   "text": "Dank für",
+   "fill": "FFC9DAF8",
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B78",
+   "text": "Mangel an",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C78",
+   "text": "Reaktion auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E78",
+   "text": "Ärger über",
+   "fill": "FFCFE2F3",
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "H78",
+   "text": "Kontakt mit",
+   "fill": null,
+   "bold": false,
+   "prep_column": "mit"
+  },
+  {
+   "cell": "I78",
+   "text": "Suche nach",
+   "fill": null,
+   "bold": false,
+   "prep_column": "nach"
+  },
+  {
+   "cell": "K78",
+   "text": "Verbindung ZU",
+   "fill": "FFFF0000",
+   "bold": true,
+   "prep_column": "zu"
+  },
+  {
+   "cell": "L78",
+   "text": "Verständnis für",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B79",
+   "text": "Zweifel an",
+   "fill": "FFC9DAF8",
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C79",
+   "text": "Rücksicht auf",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E79",
+   "text": "Bericht über",
+   "fill": null,
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "H79",
+   "text": "Problem mit",
+   "fill": null,
+   "bold": false,
+   "prep_column": "mit"
+  },
+  {
+   "cell": "I79",
+   "text": "Bedürfnis nach",
+   "fill": null,
+   "bold": false,
+   "prep_column": "nach"
+  },
+  {
+   "cell": "B80",
+   "text": "Erinnerung an",
+   "fill": "FFFF99CC",
+   "bold": true,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C80",
+   "text": "Verzicht auf",
+   "fill": "FFC9DAF8",
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E80",
+   "text": "Diskussion über",
+   "fill": null,
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "K80",
+   "text": "zur Verfügung ",
+   "fill": null,
+   "bold": false,
+   "prep_column": "zu"
+  },
+  {
+   "cell": "L80",
+   "text": "Entschädigung für",
+   "fill": null,
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B81",
+   "text": "Arbeit an ",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "B82",
+   "text": "KRITIK AN!!",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C82",
+   "text": "Antwort auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "C85",
+   "text": "neidisch auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "J85",
+   "text": "abhängig von",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "von"
+  },
+  {
+   "cell": "L85",
+   "text": "dankbar für",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B86",
+   "text": "interessiert an",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C86",
+   "text": "stolz auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "E86",
+   "text": "verärgert über",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "über"
+  },
+  {
+   "cell": "H86",
+   "text": "fertig mit",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "mit"
+  },
+  {
+   "cell": "J86",
+   "text": "begeister von",
+   "fill": null,
+   "bold": false,
+   "prep_column": "von"
+  },
+  {
+   "cell": "K86",
+   "text": "fähig zu",
+   "fill": null,
+   "bold": false,
+   "prep_column": "zu"
+  },
+  {
+   "cell": "L86",
+   "text": "verantowortlich für",
+   "fill": "FFFFE599",
+   "bold": true,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B87",
+   "text": "reich and",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C87",
+   "text": "gespannt auf",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "H87",
+   "text": "zufrieden mit",
+   "fill": null,
+   "bold": false,
+   "prep_column": "mit"
+  },
+  {
+   "cell": "J87",
+   "text": "überzeugt von",
+   "fill": null,
+   "bold": false,
+   "prep_column": "von"
+  },
+  {
+   "cell": "K87",
+   "text": "bereit zu",
+   "fill": null,
+   "bold": false,
+   "prep_column": "zu"
+  },
+  {
+   "cell": "L87",
+   "text": "bekannt für",
+   "fill": null,
+   "bold": false,
+   "prep_column": "für"
+  },
+  {
+   "cell": "B88",
+   "text": "beteiligt",
+   "fill": null,
+   "bold": false,
+   "prep_column": "an"
+  },
+  {
+   "cell": "C88",
+   "text": "wütend auf",
+   "fill": null,
+   "bold": false,
+   "prep_column": "auf"
+  },
+  {
+   "cell": "H88",
+   "text": "einverstanden mit",
+   "fill": null,
+   "bold": false,
+   "prep_column": "mit"
+  },
+  {
+   "cell": "J88",
+   "text": "enttäauscht von",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "von"
+  },
+  {
+   "cell": "L88",
+   "text": "offen für",
+   "fill": "FFFF99CC",
+   "bold": false,
+   "prep_column": "für"
+  }
+ ]
+}

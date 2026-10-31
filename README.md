@@ -1,4 +1,4 @@
-# German Trainer (telc B2)
+# Fehlerfrei (German Trainer, telc B2 → C1)
 
 Installable phone app (PWA) with German exercise modules sharing a daily goal and streak. Full spec: [CLAUDE.md](CLAUDE.md). Task list: [TASKS.md](TASKS.md).
 

@@ -1,6 +1,6 @@
 {
-  "name": "Deutsch B2 Trainer",
-  "short_name": "Deutsch B2",
+  "name": "Fehlerfrei – Deutsch lernen",
+  "short_name": "Fehlerfrei",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

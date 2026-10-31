@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1f3a5f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Deutsch B2">
+  <title>Deutsch B2</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+  <div id="update-banner" hidden></div>
+  <main id="view" tabindex="-1"></main>
+  <nav id="tabs" aria-label="Hauptnavigation">
+    <a href="#/heute" data-tab="heute">Heute</a>
+    <a href="#/ueben" data-tab="ueben">Üben</a>
+    <a href="#/fortschritt" data-tab="fortschritt">Fortschritt</a>
+    <a href="#/einstellungen" data-tab="einstellungen">Einstellungen</a>
+  </nav>
+  <noscript>Diese App braucht JavaScript.</noscript>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

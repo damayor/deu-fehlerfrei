@@ -4,7 +4,7 @@ Installable phone app (PWA) with German exercise modules sharing a daily goal an
 
 ## Current status
 
-Only the planning phase is done. `src/` has empty folders, there is no `index.html` yet, and no app code runs. Next step is Phase 1 in [TASKS.md](TASKS.md).
+Phase 1 skeleton is live (shell, tabs, storage, service worker, icons) at https://damayor.github.io/deu-fehlerfrei/. The Prepositions module is still a placeholder. Next step is Phase 2 in [TASKS.md](TASKS.md).
 
 ## Is it Node.js?
 

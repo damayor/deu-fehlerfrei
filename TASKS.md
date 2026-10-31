@@ -26,16 +26,16 @@ Done when: David confirms `docs/legacy-notes.md`.
 - [x] Bottom tab bar (Heute, Üben, Fortschritt, Einstellungen) with hash routing. Placeholder views.
 - [x] `core/store.js` (`german-trainer` database): write a test value, read it back, show it with the app version in settings.
 - Decision: `VERSION` in `src/config.js` and `CACHE_VERSION` in `sw.js` are bumped together by hand; every new file must also be added to `ASSETS` in `sw.js`.
-- [ ] Deploy a preview to GitHub Pages (ask David for repo and Pages setup).
+- [x] Deploy a preview to GitHub Pages: https://damayor.github.io/deu-fehlerfrei/ (repo `damayor/deu-fehlerfrei`, Pages from `main` /).
 - [ ] (David) Install on the phone, switch tabs, airplane mode, force close, reopen.
 
 Phone check 1: installs, full screen, tabs work, stored value survives force close and reboot, works offline.
 
 ## Phase 2: Data, engine, activity logic (no UI yet)
 
-- [ ] Build `modules/prepositions/data.json` from `legacy/prepositions_items.json` (about 101 raw items; the legacy artifact showed 90, so find out which ones it dropped or merged) and merge the example sentences, translations and cases from `legacy/prepositions.html`. Show David the full list (about 90 items: category, word, preposition, case, priority) for review.
-- [ ] Data validation with a friendly error screen.
-- [ ] `engine.js` pure functions: queue fill, next card, answer handling, streak, graduation, round rotation, option generation.
+- [x] Build `modules/prepositions/data.json` from `legacy/prepositions_items.json` (about 101 raw items; the legacy artifact showed 90, so find out which ones it dropped or merged) and merge the example sentences, translations and cases from `legacy/prepositions.html`. Show David the full list (about 90 items: category, word, preposition, case, priority) for review.
+- [x] Data validation with a friendly error screen.
+- [x] `engine.js` pure functions: queue fill, next card, answer handling, streak, graduation, round rotation, option generation.
 - [ ] `core/settings.js` with validation and per-module namespaces.
 - [ ] `core/activity.js`: daily goal and streak, pure.
 - [ ] Unit tests (`node --test`) for engine, settings and activity, covering the cases in `CLAUDE.md`. All green.
@@ -93,6 +93,26 @@ Phone check 4: numbers match what David actually answered.
 
 Done when: every box passes on the real phone. **Stop here and let David use it for a few days before Part 2.**
 
+# PART 1b: vocab_GAS, Tagesvorschau (HIGH priority, after Prepositions)
+
+Do not confuse with `vocab_B2` (PART 3, lowest priority). `vocab_GAS` is David's **whole vocabulary of the last year**, stored in the Google Apps Script project (GAS) with the sheet `TELC B2 Vokabeln SRS`, which sends one reminder every 2 hours. Module id: `vocab_GAS`. Spec only, not built. Starts only after Prepositions passes its final phone check.
+
+Goal: at the start of the day, David opens the app and sees **all words the 2-hour alerts will send that day**, each with its **context sentence** and **without the Spanish meaning**.
+
+Decisions (David, 2026-10-31):
+- **Pull, not push.** David opens the app and it pulls today's list. No notifications, no background work, no change to the Telegram reminders for now.
+- The day's list is known in advance: the script goes to fixed rows that hold the dates "x, y, z days ago". Details are asked when this phase starts. Changes in the GAS repository may be needed then (David does or approves them).
+- `vocab_B2` is not moved forward.
+
+- [ ] (David) Share the GAS repository (read-only for analysis) when this phase starts.
+- [ ] Analyze how the script picks the rows per alert and where the context sentence lives. Do not edit anything in `legacy/vocab_B2/` or the Apps Script without David's explicit approval.
+- [ ] Data contract: one read-only list "words for today" (word, context sentence, no meaning), through a read-only endpoint. Never write to the sheet.
+- [ ] Module with its own settings, own tests and error boundary, registered via `ENABLED_MODULES`. Never imports another module.
+- [ ] Offline: cache today's list in IndexedDB at the first sync of the day, so it opens in airplane mode.
+- [ ] UI: list of today's words with context sentence, optional tap to reveal the meaning.
+- [ ] Decide if viewing the list counts as an `activity` for the daily goal (default: no).
+- [ ] Phone check: the list matches the alerts that arrive during the day.
+
 # PART 2: Mistakes Test (second objective, starts only when David says so)
 
 ## Phase 7: Worker and data access
@@ -122,7 +142,7 @@ Phone check 5: sync, then go offline and complete a test. Completing one Preposi
 - [ ] LLM-generated distractors or full-sentence contexts through the Worker (needs David's decision on cost and key handling).
 - [ ] Sync progress between devices (export and import covers it for now).
 
-# PART 3: Vocab B2 (last, optional)
+# PART 3: vocab_B2 (last, optional, lowest priority)
 
 Vocab already works through Google Sheets and Telegram. Only do this if David asks.
 
@@ -135,3 +155,6 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 - 2026-10-13: Round = 10 answered cards by default (own `roundSize` setting, not tied to queue size); one round = one activity. Highlight tiers: yellow/green/red = top, yellow_light/yellow_bright = high, both above pink. 12 exam-added items drafted in `docs/prepositions-additions.json`.
 
 - 2026-10-13: Highlight tiers final: top = yellow/orange/green/red; normal priority = pink/magenta/yellow_light/yellow_bright. Wrong answer = streak -1 (min 0), no "reset to 0" and no setting for it.
+
+- 2026-10-31: App renamed to Fehlerfrei. GitHub Pages preview live. New module `vocab_GAS` (morning word preview, pull) added as PART 1b after Prepositions. `vocab_B2` stays last.
+- 2026-10-31: `data.json` has 101 items (89 legacy + 12 additions), all with example, translation and case. Engine takes `rng` as an argument; the queue is persisted by the module, progress and rounds are derived from events. Distractor strategy `confusable` not built yet (random only).

@@ -36,9 +36,9 @@ Phone check 1: installs, full screen, tabs work, stored value survives force clo
 - [x] Build `modules/prepositions/data.json` from `legacy/prepositions_items.json` (about 101 raw items; the legacy artifact showed 90, so find out which ones it dropped or merged) and merge the example sentences, translations and cases from `legacy/prepositions.html`. Show David the full list (about 90 items: category, word, preposition, case, priority) for review.
 - [x] Data validation with a friendly error screen.
 - [x] `engine.js` pure functions: queue fill, next card, answer handling, streak, graduation, round rotation, option generation.
-- [ ] `core/settings.js` with validation and per-module namespaces.
-- [ ] `core/activity.js`: daily goal and streak, pure.
-- [ ] Unit tests (`node --test`) for engine, settings and activity, covering the cases in `CLAUDE.md`. All green.
+- [x] `core/settings.js` with validation and per-module namespaces.
+- [x] `core/activity.js`: daily goal and streak, pure.
+- [x] Unit tests (`node --test`) for engine, settings and activity, covering the cases in `CLAUDE.md`. All green.
 
 Done when: tests pass and a scripted simulation of 200 random answers never gives a duplicate option, a missing correct answer or a stuck queue.
 
@@ -158,3 +158,4 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 
 - 2026-10-31: App renamed to Fehlerfrei. GitHub Pages preview live. New module `vocab_GAS` (morning word preview, pull) added as PART 1b after Prepositions. `vocab_B2` stays last.
 - 2026-10-31: `data.json` has 101 items (89 legacy + 12 additions), all with example, translation and case. Engine takes `rng` as an argument; the queue is persisted by the module, progress and rounds are derived from events. Distractor strategy `confusable` not built yet (random only).
+- 2026-10-31: Settings are schema-driven (`core/settings.js`); module-specific cross-field rules live in the module (`crossCheck`: option pool needs at least `optionCount` entries). Setting `autoAdvance` stores seconds (0, 2, 4). Distractor strategy setting left out until `confusable` exists.

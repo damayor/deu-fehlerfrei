@@ -1,11 +1,14 @@
 import { h } from '../../core/ui.js';
+import { SETTINGS_SCHEMA, crossCheck } from './settings.js';
+import { defaultsOf } from '../../core/settings.js';
 
 // Phase 1 placeholder: proves registry, mounting and the error boundary.
 export default {
   id: 'prepositions',
   title: 'Präpositionen',
-  defaultSettings: {},
-  settingsSchema: [],
+  defaultSettings: defaultsOf(SETTINGS_SCHEMA),
+  settingsSchema: SETTINGS_SCHEMA,
+  crossCheck,
   async load(ctx) {},
   mount(el, ctx) {
     el.append(h('h1', null, 'Präpositionen'), h('p', { class: 'muted' }, 'Kommt in Phase 3.'));

@@ -108,13 +108,12 @@ Then one section per module, generated from `settingsSchema`.
 |---|---|---|---|
 | Graduation threshold | stepper | 4 | 3 to 5 |
 | Active queue size | stepper | 6 | 4 to 12 |
-| Wrong answer rule | choice | reset to 0 | reset to 0, or minus 1 |
 | Number of answer options | stepper | 4 | 3 to 6 |
 | Preposition option pool | checkbox list | an, auf, in, über, vor, bei, mit, nach, von, zu, für, um | enable, disable, add custom. The correct answer is always included. |
 | Distractor strategy | choice | random from pool | random, or "confusable" if cheap |
 | Categories | checkboxes | V, N, A | at least one |
 | Priority first | toggle | on | off means the whole pool from the start |
-| Round size (for activity) | stepper | queue size | how many answered cards complete a round |
+| Round size (for activity) | stepper | 10 | how many answered cards complete a round (independent of queue size) |
 | Show example sentence | toggle | on | |
 | Auto advance after answer | choice | off | off, 2 s, 4 s |
 
@@ -122,21 +121,21 @@ Validate every change (for example the option pool needs at least `options - 1` 
 
 ## Module 1: Prepositions (legacy: `legacy/prepositions.html`)
 
-About 90 to 101 items. Source of truth for words and colors: `legacy/prepositions_items.json` (from the sheet DEU25 > "Präpositionen"). Example sentences, translations and cases are not in the sheet, they come from `legacy/prepositions.html`. Highlight colors: pink, magenta and red = priority; blue = family (same preposition for verb, noun and adjective); yellow, orange and green highlights have an unknown meaning until David explains them (keep the `highlight` field, treat as non-priority).
+About 90 to 101 items. Source of truth for words and colors: `legacy/prepositions_items.json` (from the sheet DEU25 > "Präpositionen"). Example sentences, translations and cases are not in the sheet, they come from `legacy/prepositions.html`. Highlight colors: yellow, orange, green and red = `top` priority (ultra important, not yet learned); pink, magenta, yellow_light and yellow_bright = `normal` priority; blue = family (same preposition for verb, noun and adjective). Order: top, normal, rest. Keep the `highlight` field.
 
 ```json
 { "id": "V-sich-aergern-ueber", "cat": "V", "word": "sich ärgern über",
-  "prep": "über", "case": "Akk", "priority": true, "family": null,
+  "prep": "über", "case": "Akk", "priorityTier": "normal", "family": null,
   "example_de": "…", "example_es": "…" }
 ```
 
-`cat` V, N or A. `word` includes the preposition and the card shows a blank in its place. `priority` = pink or red highlight (red "Verbindung ZU" counts as pink). `family` links noun, adjective and verb sharing a preposition (blue cells). Validate on load and show a friendly error screen on failure.
+`cat` V, N or A. `word` includes the preposition and the card shows a blank in its place. `priorityTier` = `top` | `normal` | `none` from the highlight color (see above). `family` links noun, adjective and verb sharing a preposition (blue cells). Validate on load and show a friendly error screen on failure.
 
 Behavior to reproduce:
 
 - One flashcard at a time, multiple choice.
-- Active queue (default 6), priority items first, pool expands to non-priority items when priority ones are exhausted.
-- Streak per item. Correct: +1. Wrong: per setting, item stays in the queue.
+- Active queue (default 6), top items first, then normal, then the rest; the pool expands to the next tier when the previous one is exhausted.
+- Streak per item. Correct: +1. Wrong: streak minus 1 (never below 0), item stays in the queue.
 - Graduation at N consecutive correct (default 4) moves the item to "Endlich verinnerlicht", never asked again. A graduate is replaced by a pending item.
 - At each "Neue Runde", items at streak 0 are swapped for random pool items, items with a started streak stay.
 - After each answer show the example sentence, Spanish translation and case if known (for example "sich freuen auf + Akk").

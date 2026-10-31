@@ -1,0 +1,17 @@
+{
+  "note": "12 items David added from past exams. Not in legacy/prepositions.html. Examples/translations/case written by Claude (to review by David). Merge into modules/prepositions/data.json by id.",
+  "items": [
+    {"id": "V-danken-fuer", "case": "Akk", "example_de": "Ich danke dir für deine Hilfe.", "example_es": "Te agradezco tu ayuda."},
+    {"id": "V-sich-verbessern-auf", "case": "Akk", "example_de": "Ich möchte mich auf B2-Niveau verbessern.", "example_es": "Quiero mejorar hasta el nivel B2."},
+    {"id": "V-fordern-von", "case": "Dat", "example_de": "Der Kunde fordert von der Firma eine Erstattung.", "example_es": "El cliente exige un reembolso a la empresa."},
+    {"id": "V-fuehren-zu", "case": "Dat", "example_de": "Das führt zu großen Problemen.", "example_es": "Eso lleva a grandes problemas."},
+    {"id": "V-jemanden-bitten-bei", "case": "Dat", "example_de": "Ich bitte meinen Kollegen bei der Arbeit um Hilfe.", "example_es": "Pido ayuda a mi colega en el trabajo.", "review": "Unusual pattern; confirm the exam wording"},
+    {"id": "V-sich-entscheiden-fuer", "case": "Akk", "example_de": "Ich entscheide mich für das zweite Angebot.", "example_es": "Me decido por la segunda oferta."},
+    {"id": "V-anschliessen-an", "case": "Akk", "example_de": "Ich schließe mich an die Gruppe an.", "example_es": "Me uno al grupo."},
+    {"id": "N-zeit-fuer", "case": "Akk", "example_de": "Hast du Zeit für einen Kaffee?", "example_es": "¿Tienes tiempo para un café?"},
+    {"id": "N-entschaedigung-fuer", "case": "Akk", "example_de": "Er verlangt eine Entschädigung für den Schaden.", "example_es": "Exige una indemnización por el daño."},
+    {"id": "A-ueberzeugt-von", "case": "Dat", "example_de": "Ich bin von dem Plan überzeugt.", "example_es": "Estoy convencido del plan."},
+    {"id": "A-bereit-zu", "case": "Dat", "example_de": "Ich bin zu einem Kompromiss bereit.", "example_es": "Estoy dispuesto a un compromiso."},
+    {"id": "A-bekannt-fuer", "case": "Akk", "example_de": "Berlin ist bekannt für seine Kunstszene.", "example_es": "Berlín es conocida por su escena artística."}
+  ]
+}

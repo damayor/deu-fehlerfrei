@@ -14,17 +14,18 @@ Legend: `[ ]` todo, `[x]` done, `(David)` means David does it by hand.
 - [x] Prepositions data already extracted from the sheet (DEU25 > "Präpositionen", A59:Q93) into `legacy/prepositions_items.json`, `legacy/prepositions_items.csv` and `legacy/prepositions_cells_raw.json` (cell by cell with colors). (David) Put these three files in `legacy/`. Open questions about the data are in `docs/legacy-notes.md` once written.
 - [x] (David) Save the German Feedback Agent instructions as `docs/german-feedback-agent.md` (needed for Part 2, harmless now).
 - [ ] (David, optional) Put the old vocab code in `legacy/vocab_B2/`. Nobody touches it.
-- [ ] Read `legacy/prepositions.html` and write `docs/legacy-notes.md`: item schema, exact queue, streak and graduation rules, how distractors and rounds work, and what counted as a "round". Ask David about conflicts and confirm the "activity = completed round" assumption.
+- [x] Read `legacy/prepositions.html` and write `docs/legacy-notes.md`: item schema, exact queue, streak and graduation rules, how distractors and rounds work, and what counted as a "round". Ask David about conflicts and confirm the "activity = completed round" assumption.
 - [ ] Create `.gitignore` and the folder skeleton from `CLAUDE.md`.
 
 Done when: David confirms `docs/legacy-notes.md`.
 
 ## Phase 1: Skeleton on the phone (prove the pipeline first)
 
-- [ ] `index.html`, `manifest.webmanifest`, icons, `sw.js` with versioned cache, relative URLs only.
-- [ ] `config.js` with `ENABLED_MODULES = ['prepositions']`, module registry and error boundary.
-- [ ] Bottom tab bar (Heute, Üben, Fortschritt, Einstellungen) with hash routing. Placeholder views.
-- [ ] `core/store.js` (`german-trainer` database): write a test value, read it back, show it with the app version in settings.
+- [x] `index.html`, `manifest.webmanifest`, icons, `sw.js` with versioned cache, relative URLs only.
+- [x] `config.js` with `ENABLED_MODULES = ['prepositions']`, module registry and error boundary.
+- [x] Bottom tab bar (Heute, Üben, Fortschritt, Einstellungen) with hash routing. Placeholder views.
+- [x] `core/store.js` (`german-trainer` database): write a test value, read it back, show it with the app version in settings.
+- Decision: `VERSION` in `src/config.js` and `CACHE_VERSION` in `sw.js` are bumped together by hand; every new file must also be added to `ASSETS` in `sw.js`.
 - [ ] Deploy a preview to GitHub Pages (ask David for repo and Pages setup).
 - [ ] (David) Install on the phone, switch tabs, airplane mode, force close, reopen.
 
@@ -131,3 +132,6 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 ## Decisions log
 
 - 2026-10-13: One app with isolated modules and a shared daily goal and streak (default 2 activities per day). Order: Prepositions, Mistakes Test, Vocab B2 last. Local only and offline first. Mistakes data is read-only from D1 through a Worker. Early GitHub Pages preview for real phone testing.
+- 2026-10-13: Round = 10 answered cards by default (own `roundSize` setting, not tied to queue size); one round = one activity. Highlight tiers: yellow/green/red = top, yellow_light/yellow_bright = high, both above pink. 12 exam-added items drafted in `docs/prepositions-additions.json`.
+
+- 2026-10-13: Highlight tiers final: top = yellow/orange/green/red; normal priority = pink/magenta/yellow_light/yellow_bright. Wrong answer = streak -1 (min 0), no "reset to 0" and no setting for it.

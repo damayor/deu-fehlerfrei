@@ -124,12 +124,19 @@ as its own setting) is a new addition with no legacy behavior to match.
 
 ## Open questions for David
 
-1. Which ~12 sheet items have no match in the legacy artifact's 89 — fill in
-   example/translation/case, or confirm they're fine to drop for now?
-2. Round size: keep legacy's independent `sessionLength` (default 5) or couple
-   it to queue size as `CLAUDE.md` currently states?
-3. Confirm "activity = one completed round" where a round is N answered
-   cards (whatever N resolves to from question 2) — this is the daily-goal
-   unit assumption from `CLAUDE.md`.
-4. What do the `yellow`, `yellow_light`, `yellow_bright`, `orange`, `green`
-   highlight colors mean in the sheet?
+1. ~~Which sheet items have no match?~~ **Resolved.** 12 sheet items are new
+   words David added from past exams (`zur Verfügung` = legacy `Verfügung zu`, so
+   it is a match). Example/translation/case drafted in
+   `docs/prepositions-additions.json`; David to review (esp. `jemanden bitten bei`).
+2. ~~Round size~~ **Resolved (David):** independent `roundSize` setting, default **10**
+   (legacy was 5). Not coupled to queue size.
+3. ~~Activity unit~~ **Resolved (David):** one activity = one round = N answered
+   cards (default 10). Daily goal counts these.
+4. ~~Highlight colors~~ **Resolved (David):**
+   - `top` tier: `yellow`, `orange`, `green`, `red` (ultra important, not yet learned).
+   - `normal` tier (priority): `pink`, `magenta`, `yellow_light`, `yellow_bright`.
+   - Order: top > normal > rest. `priority` boolean becomes `priorityTier`
+     (`top` | `normal` | `none`); "Priority first" follows that order.
+5. ~~Wrong answer rule~~ **Resolved (David):** a wrong answer is always **streak -1**
+   (never below 0). "Reset to 0" is dropped (legacy behavior intentionally changed),
+   so the setting disappears and the rule is fixed. Item stays in the queue.

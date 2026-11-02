@@ -1,11 +1,15 @@
 // Keep CACHE_VERSION in step with VERSION in src/config.js.
-const CACHE_VERSION = '0.1.2';
+const CACHE_VERSION = '0.2.0';
 const CACHE = `german-trainer-${CACHE_VERSION}`;
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'src/styles.css',
   'src/app.js', 'src/config.js',
-  'src/core/store.js', 'src/core/ui.js', 'src/views/shell.js',
-  'src/modules/prepositions/index.js',
+  'src/core/store.js', 'src/core/ui.js', 'src/core/events.js', 'src/core/ctx.js',
+  'src/core/activity.js', 'src/core/settings.js',
+  'src/views/shell.js', 'src/views/heute.js',
+  'src/modules/prepositions/index.js', 'src/modules/prepositions/engine.js',
+  'src/modules/prepositions/data.js', 'src/modules/prepositions/data.json',
+  'src/modules/prepositions/settings.js', 'src/modules/prepositions/views/practice.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png',
 ];
 

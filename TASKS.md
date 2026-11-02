@@ -44,11 +44,11 @@ Done when: tests pass and a scripted simulation of 200 random answers never give
 
 ## Phase 3: Practice view and daily goal
 
-- [ ] Flashcard UI: word with blank, answer buttons, category filter.
-- [ ] Feedback with example sentence, translation, case. Respect "show example" and "auto advance".
-- [ ] Log answer events. Rebuild state from events on startup.
-- [ ] "Neue Runde" flow writes an `activity` event. Empty state when everything is mastered.
-- [ ] Heute tab: today's progress toward the daily goal, current streak, module card.
+- [x] Flashcard UI: word with blank, answer buttons, category filter.
+- [x] Feedback with example sentence, translation, case. Respect "show example" and "auto advance".
+- [x] Log answer events. Rebuild state from events on startup.
+- [x] "Neue Runde" flow writes an `activity` event. Empty state when everything is mastered.
+- [x] Heute tab: today's progress toward the daily goal, current streak, module card.
 
 Phone check 2: answer 20 cards, force close, reopen: same state. Complete 2 rounds: the daily goal shows met and the streak counts. No tap lag, safe areas fine in portrait and landscape.
 
@@ -149,7 +149,13 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 - [ ] Placeholder `modules/vocab_B2/README.md`.
 - [ ] If reactivated: specify from `legacy/vocab_B2/` and the sheet, as an isolated module that registers an `activity` per completed block.
 
+## Open question: framework
+
+- [ ] Revisit the "no framework" rule in `CLAUDE.md` only if vanilla JS causes a strong, concrete tradeoff (for example the Phase 4 settings window or the Mistakes module needing lots of shared UI state and duplicated DOM code). Candidates: Preact + htm (about 4 KB, no build step) or Vue (no-build mode). Needs David's approval; until then stay vanilla. Avoid Angular (heavy, needs a build).
+
 ## Decisions log
+
+- 2026-11-02: Phase 3 built (v0.2.0), not yet phone-tested. The activity event is written when the last card of a round is answered (not on the button), then the queue rotates. Module queue persisted via `ctx.state` (cache store). Verinnerlicht sub-nav deferred to Phase 5.
 
 - 2026-10-13: One app with isolated modules and a shared daily goal and streak (default 2 activities per day). Order: Prepositions, Mistakes Test, Vocab B2 last. Local only and offline first. Mistakes data is read-only from D1 through a Worker. Early GitHub Pages preview for real phone testing.
 - 2026-10-13: Round = 10 answered cards by default (own `roundSize` setting, not tied to queue size); one round = one activity. Highlight tiers: yellow/green/red = top, yellow_light/yellow_bright = high, both above pink. 12 exam-added items drafted in `docs/prepositions-additions.json`.

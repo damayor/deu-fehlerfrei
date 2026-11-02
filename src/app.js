@@ -2,6 +2,7 @@ import { ENABLED_MODULES } from './config.js';
 import { h, errorScreen } from './core/ui.js';
 import * as store from './core/store.js';
 import * as shell from './views/shell.js';
+import { createCtx } from './core/ctx.js';
 
 const view = document.getElementById('view');
 const banner = document.getElementById('update-banner');
@@ -22,15 +23,13 @@ async function registerModules() {
   }
 }
 
-// Phase 1 ctx is a stub; the real one comes with core/events, activity and settings.
-const ctx = { ui: { h }, settings: {}, logEvent: async () => {}, getEvents: async () => [], completeActivity: async () => {} };
-
 async function mountModule(id) {
   const mod = registry.get(id);
   if (!mod) return view.append(errorScreen('Modul nicht gefunden', id));
   const box = h('div');
   view.append(box);
   try {
+    const ctx = await createCtx(mod, { h });
     await mod.load(ctx);
     mod.mount(box, ctx);
     active = mod;
@@ -57,7 +56,7 @@ async function render() {
     else if (tab === 'ueben') view.append(shell.ueben([...registry.values()]));
     else if (tab === 'fortschritt') view.append(shell.fortschritt());
     else if (tab === 'einstellungen') view.append(await shell.einstellungen({ persisted, checkUpdate }));
-    else view.append(shell.heute());
+    else view.append(await shell.heute([...registry.values()]));
   } catch (err) {
     await store.logError(`view:${tab}`, err);
     view.replaceChildren(errorScreen('Fehler beim Laden', err));

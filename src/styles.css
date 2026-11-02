@@ -55,3 +55,28 @@ button.secondary { background: transparent; color: var(--accent); border: 1px so
 }
 #update-banner[hidden] { display: none; }
 #update-banner button { background: var(--accent-fg); color: var(--accent); }
+
+/* Prepositions practice */
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.chip { background: transparent; color: var(--accent); border: 1px solid var(--accent); padding: 6px 14px; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); }
+.chip:disabled { opacity: .4; }
+.flash { text-align: center; padding: 24px 14px; }
+.phrase { font-size: 1.7rem; font-weight: 600; margin: 8px 0; overflow-wrap: anywhere; }
+.phrase-sm { font-weight: 600; margin: 4px 0; }
+.options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+.opt { min-height: 56px; font-size: 1.15rem; background: var(--card); color: var(--fg); border: 2px solid var(--line); }
+.opt.ok { border-color: #1e8e3e; background: rgba(30,142,62,.18); }
+.opt.ok::after { content: " ✓"; }
+.opt.no { border-color: var(--bad); background: rgba(179,38,30,.15); }
+.opt.no::after { content: " ✗"; }
+.opt:disabled { opacity: 1; cursor: default; }
+.feedback.ok { border-left: 4px solid #1e8e3e; }
+.feedback.no { border-left: 4px solid var(--bad); }
+.verdict { font-weight: 600; margin: 0 0 4px; }
+.next { width: 100%; margin-top: 8px; }
+
+/* Heute */
+.big { font-size: 2.2rem; font-weight: 700; margin: 0; }
+.bar { height: 10px; background: var(--line); border-radius: 5px; overflow: hidden; margin: 8px 0; }
+.bar > span { display: block; height: 100%; background: var(--accent); }

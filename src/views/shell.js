@@ -2,7 +2,7 @@ import { h, placeholder } from '../core/ui.js';
 import { VERSION } from '../config.js';
 import * as store from '../core/store.js';
 
-export const heute = () => placeholder('Heute', 'Tagesziel und Serie kommen in Phase 3.');
+export { heute } from './heute.js';
 export const fortschritt = () => placeholder('Fortschritt', 'Statistiken kommen in Phase 5.');
 
 export function ueben(modules) {

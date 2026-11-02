@@ -1,5 +1,6 @@
 import { ENABLED_MODULES } from './config.js';
-import { h, errorScreen } from './core/ui.js';
+import { h, errorScreen, applyTheme } from './core/ui.js';
+import { GLOBAL_SCHEMA, loadSettings } from './core/settings.js';
 import * as store from './core/store.js';
 import * as shell from './views/shell.js';
 import { createCtx } from './core/ctx.js';
@@ -55,7 +56,7 @@ async function render() {
     if (tab === 'ueben' && sub) await mountModule(sub);
     else if (tab === 'ueben') view.append(shell.ueben([...registry.values()]));
     else if (tab === 'fortschritt') view.append(shell.fortschritt());
-    else if (tab === 'einstellungen') view.append(await shell.einstellungen({ persisted, checkUpdate }));
+    else if (tab === 'einstellungen') view.append(await shell.einstellungen({ persisted, checkUpdate, modules: [...registry.values()], rerender: render }));
     else view.append(await shell.heute([...registry.values()]));
   } catch (err) {
     await store.logError(`view:${tab}`, err);
@@ -108,6 +109,7 @@ window.addEventListener('hashchange', render);
 
 (async function boot() {
   persisted = await store.requestPersistence();
+  try { applyTheme((await loadSettings(store, 'global', GLOBAL_SCHEMA)).theme); } catch (err) { store.logError('theme', err); }
   await registerModules();
   await render();
   registerServiceWorker();

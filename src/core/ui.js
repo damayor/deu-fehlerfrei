@@ -24,3 +24,9 @@ export function errorScreen(title, err) {
 export function placeholder(title, text) {
   return h('div', null, h('h1', null, title), h('p', { class: 'muted' }, text));
 }
+
+/** @param {'auto'|'light'|'dark'} theme */
+export function applyTheme(theme) {
+  if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+  else delete document.documentElement.dataset.theme;
+}

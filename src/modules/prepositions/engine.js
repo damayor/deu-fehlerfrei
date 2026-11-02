@@ -75,6 +75,10 @@ export function fillQueue(items, progress, queue, settings, rng, exclude = []) {
   const byId = new Map(items.map((it) => [it.id, it]));
   const q = queue.filter((id) => byId.has(id) && !progress[id]?.graduated
     && settings.categories.includes(byId.get(id).cat));
+  if (q.length > settings.queueSize) { // queue size was lowered: keep the items with the most progress
+    const keep = new Set([...q].sort((a, b) => (progress[b]?.streak ?? 0) - (progress[a]?.streak ?? 0)).slice(0, settings.queueSize));
+    q.splice(0, q.length, ...q.filter((id) => keep.has(id)));
+  }
   while (q.length < settings.queueSize) {
     let pool = nextPool(candidates(items, progress, q, settings, exclude), settings);
     if (!pool.length) pool = nextPool(candidates(items, progress, q, settings), settings); // fall back to excluded

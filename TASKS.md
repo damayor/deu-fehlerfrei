@@ -54,11 +54,11 @@ Phone check 2: answer 20 cards, force close, reopen: same state. Complete 2 roun
 
 ## Phase 4: Settings window
 
-- [ ] Global settings: daily goal, theme, restore defaults, version, "Update prüfen".
-- [ ] Prepositions settings: every row of the table in `CLAUDE.md`, generated from `settingsSchema`, applied immediately and persisted.
-- [ ] Validation with clear messages (for example not enough distractors).
-- [ ] Preposition option pool editor: enable, disable, add custom.
-- [ ] Backup: export JSON, import JSON, reset with confirmation, last export date.
+- [x] Global settings: daily goal, theme, restore defaults, version, "Update prüfen".
+- [x] Prepositions settings: every row of the table in `CLAUDE.md`, generated from `settingsSchema`, applied immediately and persisted.
+- [x] Validation with clear messages (for example not enough distractors).
+- [x] Preposition option pool editor: enable, disable, add custom.
+- [x] Backup: export JSON, import JSON, reset with confirmation, last export date.
 
 Phone check 3: change graduation threshold, queue size, number of options, the option pool and the daily goal, and confirm the next cards and the Heute tab reflect it. Export, reset, import: progress comes back identical.
 
@@ -154,6 +154,9 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 - [ ] Revisit the "no framework" rule in `CLAUDE.md` only if vanilla JS causes a strong, concrete tradeoff (for example the Phase 4 settings window or the Mistakes module needing lots of shared UI state and duplicated DOM code). Candidates: Preact + htm (about 4 KB, no build step) or Vue (no-build mode). Needs David's approval; until then stay vanilla. Avoid Angular (heavy, needs a build).
 
 ## Decisions log
+
+- 2026-11-02: Cards show the example sentence with the preposition blanked before answering, full sentence (preposition highlighted) plus Spanish after. Both follow the "Beispielsatz zeigen" setting; with it off the card shows only the word with a blank.
+- 2026-11-02: Phase 4 built (v0.3.0), not yet phone-tested. Settings form is generated from the schema (`core/settings-ui.js`); invalid changes are rejected and the reason shown. Backup file holds events, settings and module state; import replaces them; reset keeps the last export date. Lowering the queue size trims the queue, keeping the items with the most progress. Distractor strategy still missing from settings (no `confusable` yet).
 
 - 2026-11-02: Phase 3 built (v0.2.0), not yet phone-tested. The activity event is written when the last card of a round is answered (not on the button), then the queue rotates. Module queue persisted via `ctx.state` (cache store). Verinnerlicht sub-nav deferred to Phase 5.
 

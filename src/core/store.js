@@ -46,6 +46,21 @@ export const put = (store, value) => run(store, 'readwrite', (s) => s.put(value)
 export const get = (store, key) => run(store, 'readonly', (s) => s.get(key));
 export const getAll = (store) => run(store, 'readonly', (s) => s.getAll());
 export const clear = (store) => run(store, 'readwrite', (s) => s.clear());
+export const del = (store, key) => run(store, 'readwrite', (s) => s.delete(key));
+
+/** Atomically replace the whole content of a store: either all of it is written or none. */
+export async function replaceAll(store, values) {
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(store, 'readwrite');
+    const s = tx.objectStore(store);
+    s.clear();
+    for (const v of values) s.put(v);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(new Error(`Speichern fehlgeschlagen (${store}): ${tx.error?.message}`));
+    tx.onabort = () => reject(new Error(`Speichern abgebrochen (${store}): ${tx.error?.message}`));
+  });
+}
 
 export function newId() {
   return globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;

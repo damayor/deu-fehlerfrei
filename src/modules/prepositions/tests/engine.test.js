@@ -142,3 +142,11 @@ test('summarize: counts, accuracy, hardest', () => {
   assert.equal(s.graduated, 1); assert.equal(s.hardest[0].id, 't2'); assert.equal(s.accuracy, 4 / 8);
   assert.equal(summarize(ITEMS, {}).accuracy, null);
 });
+
+test('fillQueue trims an oversized queue, keeping items with the most progress', async () => {
+  const { fillQueue, DEFAULTS } = await import('../engine.js');
+  const items = ['a', 'b', 'c', 'd'].map((id) => ({ id, cat: 'V', prep: 'an', priorityTier: 'none' }));
+  const progress = { a: { streak: 0 }, b: { streak: 2 }, c: { streak: 1 }, d: { streak: 0 } };
+  const q = fillQueue(items, progress, ['a', 'b', 'c', 'd'], { ...DEFAULTS, queueSize: 2 }, Math.random);
+  assert.deepEqual(q, ['b', 'c']);
+});

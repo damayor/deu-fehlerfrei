@@ -155,6 +155,8 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 
 ## Decisions log
 
+- 2026-11-02: vocab_GAS UI v0.5.0: state per word from the cell colors the Telegram reactions write (word green = sicher, word yellow + phrase green = mit Satz erkannt, both yellow/orange = offen, phrase red = Satz passt nicht, no color = neu). The endpoint sends `wordBg`/`fraseBg`, the app maps them (hue based, so manual orange works); without them every word is "neu". Slot header shows "Vor N Tagen/Monaten" plus the original date, no hour. Phone check passed for fetching (works on the phone after a few seconds).
+
 - 2026-11-02: vocab_GAS built (v0.4.0), started before the final Prepositions phone check at David's request. Source: repo `damayor/ai-agent-with-gas-spreadsheets` (Sprachen). The day's list = the 7 activators (months 8,7,6,1 then days 15,7,5) at 09,11,...,21 h, rows by date in `WoerterDesTages`. Proposed read-only `doGet` in `docs/vocab-gas-endpoint.gs` (token in Script Properties `VOCAB_APP_TOKEN`), NOT deployed yet. German only; English words only produce the hint "Hay datos, ¡pero ve a la app de inglés!". Words without a context sentence show the word only; a tap reveals the translation. Viewing does not count as an activity. Web-app URL and token live in IndexedDB (module settings); the token is left out of backup files. Untested: real fetch against Apps Script (CORS/redirect) and the phone check.
 
 - 2026-11-02: Cards show the example sentence with the preposition blanked before answering, full sentence (preposition highlighted) plus Spanish after. Both follow the "Beispielsatz zeigen" setting; with it off the card shows only the word with a blank.

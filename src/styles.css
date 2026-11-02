@@ -82,7 +82,7 @@ button.secondary { background: transparent; color: var(--accent); border: 1px so
 .bar > span { display: block; height: 100%; background: var(--accent); }
 .sentence { font-size: 1.25rem; margin: 12px 0 0; overflow-wrap: anywhere; }
 .gap { font-weight: 700; letter-spacing: .05em; color: var(--accent); }
-mark { background: rgba(30,142,62,.25); color: inherit; font-weight: 700; padding: 0 2px; border-radius: 4px; }
+mark { background: rgba(31,58,95,.16); color: inherit; font-weight: 700; padding: 0 2px; border-radius: 4px; }
 
 /* Settings */
 .field { margin-bottom: 16px; }
@@ -101,10 +101,30 @@ button.danger { background: var(--bad); color: #fff; }
 input.text { width: 100%; min-height: 44px; font: inherit; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--fg); }
 
 /* Wörter des Tages */
-.slot h2 { margin-top: 0; }
-.word { display: block; width: 100%; text-align: left; background: transparent; color: var(--fg); border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 10px 0; }
-.word .orig { font-weight: 700; font-size: 1.1rem; display: block; }
-.word .frase { display: block; margin-top: 2px; }
-.word .trad { display: block; margin-top: 4px; color: var(--accent); }
-.hint { font-size: .85rem; }
+main > div { max-width: 640px; margin-inline: auto; }
+:root { --st-known: #1e8e3e; --st-recalled: #b58900; --st-open: #e8710a; --st-new: var(--line); }
+:root[data-theme="dark"] { --st-known: #4cc26b; --st-recalled: #e0b933; --st-open: #ff9a3d; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --st-known: #4cc26b; --st-recalled: #e0b933; --st-open: #ff9a3d; } }
+.counts { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 10px 0; }
+.count { display: inline-flex; align-items: center; gap: 6px; }
+.count::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.count.st-known, .tag.st-known { --c: var(--st-known); }
+.count.st-recalled, .tag.st-recalled { --c: var(--st-recalled); }
+.count.st-open, .tag.st-open { --c: var(--st-open); }
+.count.st-new { --c: var(--line); }
+.slot { padding: 6px 14px 10px; }
+.slot-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 8px 0 4px; }
+.slot-head h2 { margin: 0; }
+.word { display: block; width: 100%; text-align: left; background: transparent; color: var(--fg);
+  border: 0; border-top: 1px solid var(--line); border-left: 5px solid var(--st-new); border-radius: 0; padding: 10px 0 10px 12px; }
+.word.st-known { border-left-color: var(--st-known); }
+.word.st-recalled { border-left-color: var(--st-recalled); }
+.word.st-open { border-left-color: var(--st-open); }
+.word-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.word .orig { font-weight: 700; font-size: 1.15rem; overflow-wrap: anywhere; }
+.tag { font-size: .75rem; color: var(--c); border: 1px solid var(--c); border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+.word .frase { display: block; margin-top: 4px; }
+.word .bad { display: block; margin-top: 4px; font-size: .8rem; color: var(--bad); }
+.word .trad { display: block; margin-top: 6px; color: var(--accent); }
 .word .trad[hidden] { display: none; }
+.hint { font-size: .85rem; }

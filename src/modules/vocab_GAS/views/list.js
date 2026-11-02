@@ -2,21 +2,24 @@ import { h } from '../../../core/ui.js';
 import { dayKey } from '../../../core/activity.js';
 import { isConfigured } from '../settings.js';
 import { fetchToday } from '../sync.js';
-import { slotLabel, slotStatus, totalWords } from '../engine.js';
+import { slotLabel, totalWords, countStates, originDate, highlightParts, STATE_LABEL } from '../engine.js';
 
 const fmtTime = (ts) => new Date(ts).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+const fmtDay = (d) => d.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
+const ICON = { known: '✓', recalled: '◐', open: '○', new: '' };
+const cap = (t) => t[0].toUpperCase() + t.slice(1);
 
 /** @param {HTMLElement} el @param {{ctx:any, cached:{data:any, syncedAt:number}|null, fetchFn?:typeof fetch}} init */
 export function startList(el, { ctx, cached, fetchFn }) {
-  const root = h('div');
+  const root = h('div', { class: 'vocab' });
   el.append(root);
   let alive = true;
   let state = cached; // { data, syncedAt }
   let error = null;
   let busy = false;
+  let filter = 'all'; // 'all' | 'todo'
 
-  const today = () => dayKey(Date.now());
-  const fresh = () => state?.data?.date === today();
+  const fresh = () => state?.data?.date === dayKey(Date.now());
 
   async function sync() {
     if (busy) return;
@@ -30,27 +33,54 @@ export function startList(el, { ctx, cached, fetchFn }) {
     if (alive) draw();
   }
 
-  function word(w) {
-    const btn = h('button', { class: 'word', 'aria-expanded': 'false', onclick: () => {
+  function sentence(w) {
+    const parts = highlightParts(w.frase, w.orig);
+    return h('span', { class: 'frase', lang: 'de' },
+      ...(parts ? [parts.before, h('mark', null, parts.match), parts.after] : [w.frase]));
+  }
+
+  function word(w0) {
+    const w = { state: 'new', badPhrase: false, ...w0 }; // lists cached by older versions have no state
+    const btn = h('button', { class: `word st-${w.state}`, 'aria-expanded': 'false', onclick: () => {
       const open = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', String(!open));
       trad.hidden = open;
     } },
-      h('span', { class: 'orig', lang: 'de' }, w.orig),
-      w.frase ? h('span', { class: 'frase', lang: 'de' }, w.frase) : null);
-    const trad = h('span', { class: 'trad' }, w.trad || '–');
+      h('span', { class: 'word-top' },
+        h('span', { class: 'orig', lang: 'de' }, w.orig),
+        w.state === 'new' ? null : h('span', { class: `tag st-${w.state}` }, `${ICON[w.state]} ${STATE_LABEL[w.state]}`)),
+      w.frase ? sentence(w) : null,
+      w.badPhrase ? h('span', { class: 'bad' }, 'Satz passt nicht zum Wort') : null);
+    const trad = h('span', { class: 'trad' }, `🇪🇸 ${w.trad || '–'}`);
     trad.hidden = true;
     btn.append(trad);
     return btn;
   }
 
-  function slot(s, now) {
-    const status = slotStatus(s, now);
+  function slot(s, date) {
+    const words = filter === 'todo' ? s.words.filter((w) => !w.state || w.state === 'open' || w.state === 'new') : s.words;
+    if (!words.length && !s.englishCount) return null;
+    const origin = fmtDay(originDate(date, s));
     return h('section', { class: 'card slot' },
-      h('h2', null, `${s.hour != null ? `${String(s.hour).padStart(2, '0')}:23 · ` : ''}${slotLabel(s)}`),
-      h('p', { class: 'muted' }, status === 'sent' ? 'Schon gesendet' : status === 'upcoming' ? 'Kommt noch' : ''),
-      ...s.words.map(word),
+      h('div', { class: 'slot-head' },
+        h('h2', null, cap(slotLabel(s))),
+        h('span', { class: 'muted' }, `${origin} · ${s.words.length} ${s.words.length === 1 ? 'Wort' : 'Wörter'}`)),
+      ...words.map(word),
       s.englishCount ? h('p', { class: 'muted hint' }, 'Hay datos, ¡pero ve a la app de inglés!') : null);
+  }
+
+  function summary(data) {
+    const c = countStates(data);
+    const chip = (key, label) => c[key] ? h('span', { class: `count st-${key}` }, h('b', null, String(c[key])), ` ${label}`) : null;
+    const filters = h('div', { class: 'chips', role: 'group', 'aria-label': 'Filter' },
+      ...[['all', 'Alle'], ['todo', 'Noch üben']].map(([v, label]) => h('button', {
+        class: 'chip', 'aria-pressed': String(filter === v), onclick: () => { filter = v; draw(); } }, label)));
+    return h('div', { class: 'card' },
+      h('p', { class: 'big' }, `${totalWords(data)} Wörter`),
+      h('p', { class: 'muted' }, `${data.slots.length} Wiederholungen · Stand ${fmtTime(state.syncedAt)}`),
+      h('div', { class: 'counts' }, chip('known', 'sicher'), chip('recalled', 'mit Satz'), chip('open', 'offen'), chip('new', 'neu')),
+      filters,
+      h('p', { class: 'muted hint' }, 'Tippe ein Wort, um die Übersetzung zu sehen.'));
   }
 
   function draw() {
@@ -61,11 +91,8 @@ export function startList(el, { ctx, cached, fetchFn }) {
         h('a', { class: 'btn', href: '#/einstellungen' }, 'Zu den Einstellungen')));
     } else {
       if (fresh()) {
-        const total = totalWords(state.data);
-        out.push(h('p', { class: 'muted' }, `${total} Wörter in ${state.data.slots.length} Wiederholungen · Stand ${fmtTime(state.syncedAt)}`));
         if (!state.data.slots.length) out.push(h('div', { class: 'card' }, h('p', null, 'Heute gibt es keine Wörter zu wiederholen.')));
-        const now = new Date();
-        out.push(...state.data.slots.map((s) => slot(s, now)));
+        else out.push(summary(state.data), ...state.data.slots.map((s) => slot(s, state.data.date)).filter(Boolean));
       } else if (!busy) {
         out.push(h('div', { class: 'card' }, h('p', null, state ? 'Die gespeicherte Liste ist von einem anderen Tag.' : 'Noch keine Liste geladen.')));
       }

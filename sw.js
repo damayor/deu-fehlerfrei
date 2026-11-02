@@ -1,5 +1,5 @@
 // Keep CACHE_VERSION in step with VERSION in src/config.js.
-const CACHE_VERSION = '0.4.1';
+const CACHE_VERSION = '0.5.0';
 const CACHE = `german-trainer-${CACHE_VERSION}`;
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'src/styles.css',

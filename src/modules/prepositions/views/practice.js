@@ -14,6 +14,25 @@ export function withBlank(word, prep) {
   return parts.join(' ');
 }
 
+const CONTRACTIONS = { zu: ['zur', 'zum'], an: ['am', 'ans'], in: ['im', 'ins'], auf: ['aufs'], für: ['fürs'], von: ['vom'], bei: ['beim'], um: ['ums'] };
+const wordRe = (w) => new RegExp(`(?<![\\p{L}])${w}(?![\\p{L}])`, 'giu');
+
+/**
+ * Split an example sentence around the preposition (its last whole-word occurrence, which is the
+ * governed one in "warte auf eine Antwort auf meine Frage" and in separable verbs).
+ * Falls back to contracted forms (zur, am, ...). Returns null when it is not found.
+ * @returns {{before:string, found:string, after:string}|null}
+ */
+export function splitAtPrep(sentence, prep) {
+  if (!sentence) return null;
+  for (const w of [prep, ...(CONTRACTIONS[prep] ?? [])]) {
+    const hits = [...sentence.matchAll(wordRe(w))];
+    const m = hits.at(-1);
+    if (m) return { before: sentence.slice(0, m.index), found: m[0], after: sentence.slice(m.index + m[0].length) };
+  }
+  return null;
+}
+
 /**
  * @param {HTMLElement} el
  * @param {{items:any[], ctx:any, progress:Record<string,any>, queue:string[], lastId:string|null, roundCount:number, rng?:()=>number}} init
@@ -60,14 +79,18 @@ export function startPractice(el, init) {
   function showCard(card) {
     const options = E.buildOptions(card, settings, rng);
     const shownAt = performance.now();
+    const split = settings.showExample ? splitAtPrep(card.example_de, card.prep) : null;
+    const sentence = split ? h('p', { class: 'sentence', lang: 'de' }, split.before, h('span', { class: 'gap' }, BLANK), split.after) : null;
     show(h('div', { class: 'card flash' },
       h('p', { class: 'muted' }, { V: 'Verb', N: 'Nomen', A: 'Adjektiv' }[card.cat]),
-      h('p', { class: 'phrase', lang: 'de' }, withBlank(card.word, card.prep))),
+      h('p', { class: split ? 'phrase-sm' : 'phrase', lang: 'de' }, withBlank(card.word, card.prep)),
+      sentence),
       h('div', { class: 'options' }, ...options.map((o) =>
-        h('button', { class: 'opt', onclick: (ev) => answer(card, o, Math.round(performance.now() - shownAt), ev.currentTarget.parentNode) }, o))));
+        h('button', { class: 'opt', onclick: (ev) => answer(card, o, Math.round(performance.now() - shownAt), ev.currentTarget.parentNode, split, sentence) }, o))));
   }
 
-  async function answer(card, choice, ms, box) {
+  async function answer(card, choice, ms, box, split, sentence) {
+    if (split && sentence) sentence.replaceChildren(split.before, h('mark', null, split.found), split.after);
     box.querySelectorAll('button').forEach((b) => {
       b.disabled = true;
       if (b.textContent === card.prep) b.classList.add('ok');
@@ -93,17 +116,17 @@ export function startPractice(el, init) {
       s.roundCount = 0; s.roundCorrect = 0;
     }
     persist();
-    feedback(card, choice, correct, box, summary);
+    feedback(card, choice, correct, box, summary, !!split);
   }
 
-  function feedback(card, choice, correct, box, summary) {
+  function feedback(card, choice, correct, box, summary, split) {
     if (!s.alive) return;
     const phrase = card.case ? `${card.word} + ${card.case}` : card.word;
     const go = () => (summary ? roundScreen(summary) : next());
     const fb = h('div', { class: `card feedback ${correct ? 'ok' : 'no'}`, role: 'status' },
       h('p', { class: 'verdict' }, correct ? '✓ Richtig' : `✗ Falsch – richtig ist „${card.prep}“`),
       h('p', { class: 'phrase-sm' }, phrase),
-      settings.showExample && card.example_de ? h('p', { lang: 'de' }, card.example_de) : null,
+      settings.showExample && card.example_de && !split ? h('p', { lang: 'de' }, card.example_de) : null,
       settings.showExample && card.example_es ? h('p', { class: 'muted' }, card.example_es) : null,
       h('button', { class: 'next', onclick: go }, summary ? 'Runde abschließen' : 'Weiter'));
     box.after(fb);

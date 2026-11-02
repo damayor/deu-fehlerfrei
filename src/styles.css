@@ -98,3 +98,13 @@ mark { background: rgba(30,142,62,.25); color: inherit; font-weight: 700; paddin
 .add-row input { flex: 1; min-width: 0; min-height: 44px; font: inherit; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--fg); }
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
 button.danger { background: var(--bad); color: #fff; }
+input.text { width: 100%; min-height: 44px; font: inherit; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--fg); }
+
+/* Wörter des Tages */
+.slot h2 { margin-top: 0; }
+.word { display: block; width: 100%; text-align: left; background: transparent; color: var(--fg); border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 10px 0; }
+.word .orig { font-weight: 700; font-size: 1.1rem; display: block; }
+.word .frase { display: block; margin-top: 2px; }
+.word .trad { display: block; margin-top: 4px; color: var(--accent); }
+.hint { font-size: .85rem; }
+.word .trad[hidden] { display: none; }

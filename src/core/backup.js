@@ -24,10 +24,15 @@ export function parseBackup(text) {
   return { ok: true, data: d };
 }
 
+// Secrets typed into module settings (keys ending in "token") never go into a backup file.
+const withoutSecrets = (rec) => (rec.values
+  ? { ...rec, values: Object.fromEntries(Object.entries(rec.values).filter(([k]) => !/token$/i.test(k))) }
+  : rec);
+
 export async function exportAll(store, now, version) {
   const [events, settings, cache] = await Promise.all([store.getAll('events'), store.getAll('settings'), store.getAll('cache')]);
   const backup = buildBackup({
-    events, settings: settings.filter((r) => r.key === 'global' || r.key.startsWith('module:')), state: cache.filter(isState),
+    events, settings: settings.filter((r) => r.key === 'global' || r.key.startsWith('module:')).map(withoutSecrets), state: cache.filter(isState),
   }, now, version);
   await store.put('settings', { key: META_KEY, lastExport: now });
   return backup;

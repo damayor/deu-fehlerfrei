@@ -5,6 +5,7 @@
 //   stepper: integer, min, max
 //   toggle:  boolean
 //   choice:  options [{value,label}]
+//   text:    string, optional max (default 500), pattern (RegExp) + patternMessage, secret (hidden input, kept out of backups)
 //   multi:   array of strings; options (list), allowCustom, min (minimum number selected)
 
 export const GLOBAL_SCHEMA = [
@@ -28,6 +29,12 @@ export function validateField(field, value) {
       return typeof value === 'boolean' ? null : `${field.label}: Ein oder Aus erwartet.`;
     case 'choice':
       return field.options.some((o) => o.value === value) ? null : `${field.label}: ungültige Auswahl.`;
+    case 'text': {
+      if (typeof value !== 'string') return `${field.label}: Text erwartet.`;
+      if (value.length > (field.max ?? 500)) return `${field.label}: höchstens ${field.max ?? 500} Zeichen.`;
+      if (value !== '' && field.pattern && !field.pattern.test(value)) return field.patternMessage ?? `${field.label}: ungültiges Format.`;
+      return null;
+    }
     case 'multi': {
       if (!Array.isArray(value) || value.some((v) => typeof v !== 'string' || !v.trim())) return `${field.label}: ungültige Liste.`;
       if (new Set(value).size !== value.length) return `${field.label}: doppelte Einträge.`;

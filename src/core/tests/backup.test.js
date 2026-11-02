@@ -49,3 +49,10 @@ test('export, reset, import brings progress back identical', async () => {
   assert.deepEqual(store.db.settings.find((r) => r.key === 'global').values, { dailyGoal: 3 });
   assert.deepEqual(store.db.cache.find((r) => r.key === 'state:prepositions').value, { queue: ['x'] });
 });
+
+test('export leaves secret tokens out of the backup file', async () => {
+  const store = fakeStore({ settings: [{ key: 'module:vocab_GAS', values: { url: 'https://x/', token: 'secret' } }] });
+  const b = await exportAll(store, 1, '1');
+  assert.deepEqual(b.settings[0].values, { url: 'https://x/' });
+  assert.equal(JSON.stringify(b).includes('secret'), false);
+});

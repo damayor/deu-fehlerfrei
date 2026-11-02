@@ -104,13 +104,13 @@ Decisions (David, 2026-10-31):
 - The day's list is known in advance: the script goes to fixed rows that hold the dates "x, y, z days ago". Details are asked when this phase starts. Changes in the GAS repository may be needed then (David does or approves them).
 - `vocab_B2` is not moved forward.
 
-- [ ] (David) Share the GAS repository (read-only for analysis) when this phase starts.
-- [ ] Analyze how the script picks the rows per alert and where the context sentence lives. Do not edit anything in `legacy/vocab_B2/` or the Apps Script without David's explicit approval.
-- [ ] Data contract: one read-only list "words for today" (word, context sentence, no meaning), through a read-only endpoint. Never write to the sheet.
-- [ ] Module with its own settings, own tests and error boundary, registered via `ENABLED_MODULES`. Never imports another module.
-- [ ] Offline: cache today's list in IndexedDB at the first sync of the day, so it opens in airplane mode.
-- [ ] UI: list of today's words with context sentence, optional tap to reveal the meaning.
-- [ ] Decide if viewing the list counts as an `activity` for the daily goal (default: no).
+- [x] (David) Share the GAS repository (read-only for analysis) when this phase starts.
+- [x] Analyze how the script picks the rows per alert and where the context sentence lives. Do not edit anything in `legacy/vocab_B2/` or the Apps Script without David's explicit approval.
+- [x] Data contract: one read-only list "words for today" (word, context sentence, no meaning), through a read-only endpoint. Never write to the sheet.
+- [x] Module with its own settings, own tests and error boundary, registered via `ENABLED_MODULES`. Never imports another module.
+- [x] Offline: cache today's list in IndexedDB at the first sync of the day, so it opens in airplane mode.
+- [x] UI: list of today's words with context sentence, optional tap to reveal the meaning.
+- [x] Decide if viewing the list counts as an `activity` for the daily goal (default: no).
 - [ ] Phone check: the list matches the alerts that arrive during the day.
 
 # PART 2: Mistakes Test (second objective, starts only when David says so)
@@ -154,6 +154,8 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 - [ ] Revisit the "no framework" rule in `CLAUDE.md` only if vanilla JS causes a strong, concrete tradeoff (for example the Phase 4 settings window or the Mistakes module needing lots of shared UI state and duplicated DOM code). Candidates: Preact + htm (about 4 KB, no build step) or Vue (no-build mode). Needs David's approval; until then stay vanilla. Avoid Angular (heavy, needs a build).
 
 ## Decisions log
+
+- 2026-11-02: vocab_GAS built (v0.4.0), started before the final Prepositions phone check at David's request. Source: repo `damayor/ai-agent-with-gas-spreadsheets` (Sprachen). The day's list = the 7 activators (months 8,7,6,1 then days 15,7,5) at 09,11,...,21 h, rows by date in `WoerterDesTages`. Proposed read-only `doGet` in `docs/vocab-gas-endpoint.gs` (token in Script Properties `VOCAB_APP_TOKEN`), NOT deployed yet. German only; English words only produce the hint "Hay datos, ¡pero ve a la app de inglés!". Words without a context sentence show the word only; a tap reveals the translation. Viewing does not count as an activity. Web-app URL and token live in IndexedDB (module settings); the token is left out of backup files. Untested: real fetch against Apps Script (CORS/redirect) and the phone check.
 
 - 2026-11-02: Cards show the example sentence with the preposition blanked before answering, full sentence (preposition highlighted) plus Spanish after. Both follow the "Beispielsatz zeigen" setting; with it off the card shows only the word with a blank.
 - 2026-11-02: Phase 4 built (v0.3.0), not yet phone-tested. Settings form is generated from the schema (`core/settings-ui.js`); invalid changes are rejected and the reason shown. Backup file holds events, settings and module state; import replaces them; reset keeps the last export date. Lowering the queue size trims the queue, keeping the items with the most progress. Distractor strategy still missing from settings (no `confusable` yet).

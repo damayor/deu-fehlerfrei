@@ -17,5 +17,5 @@ export async function heute(modules) {
       h('p', { class: 'big' }, `🔥 ${current}`),
       h('p', null, current === 1 ? 'Tag in Folge' : 'Tage in Folge'),
       h('p', { class: 'muted' }, `Beste Serie: ${best}${today.met ? '' : ' · Heute noch offen, die Serie bleibt bis Mitternacht erhalten.'}`)),
-    ...modules.map((m) => h('a', { class: 'card btn', href: `#/ueben/${m.id}`, style: 'display:block' }, `${m.title} üben`)));
+    ...modules.map((m) => h('a', { class: 'card btn', href: `#/ueben/${m.id}`, style: 'display:block' }, m.cardLabel ?? `${m.title} üben`)));
 }

@@ -29,6 +29,10 @@ export function schemaForm({ schema, values, cross, onSave, onSaved }) {
     toggle: (f, v) => h('button', { class: 'switch', role: 'switch', 'aria-checked': String(v), 'aria-label': f.label, onclick: () => change({ [f.key]: !v }) }, v ? 'An' : 'Aus'),
     choice: (f, v) => h('div', { class: 'chips', role: 'group', 'aria-label': f.label },
       ...f.options.map((o) => h('button', { class: 'chip', 'aria-pressed': String(o.value === v), onclick: () => change({ [f.key]: o.value }) }, o.label))),
+    text: (f, v) => h('input', {
+      class: 'text', type: f.secret ? 'password' : 'text', value: v, 'aria-label': f.label, autocomplete: 'off',
+      autocapitalize: 'none', spellcheck: 'false', onchange: (e) => change({ [f.key]: e.target.value.trim() }),
+    }),
     multi: (f, v) => multi(f, v),
   };
 

@@ -1,5 +1,5 @@
 // Keep CACHE_VERSION in step with VERSION in src/config.js.
-const CACHE_VERSION = '0.3.0';
+const CACHE_VERSION = '0.4.0';
 const CACHE = `german-trainer-${CACHE_VERSION}`;
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'src/styles.css',
@@ -10,6 +10,8 @@ const ASSETS = [
   'src/modules/prepositions/index.js', 'src/modules/prepositions/engine.js',
   'src/modules/prepositions/data.js', 'src/modules/prepositions/data.json',
   'src/modules/prepositions/settings.js', 'src/modules/prepositions/views/practice.js',
+  'src/modules/vocab_GAS/index.js', 'src/modules/vocab_GAS/engine.js', 'src/modules/vocab_GAS/settings.js',
+  'src/modules/vocab_GAS/sync.js', 'src/modules/vocab_GAS/views/list.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png',
 ];
 

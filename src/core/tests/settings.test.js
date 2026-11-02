@@ -67,3 +67,13 @@ test('save and load round trip with separate namespaces', async () => {
   assert.equal((await loadSettings(store, 'global', GLOBAL_SCHEMA)).dailyGoal, 3);
   assert.ok(db.has('module:prepositions') && db.has('global'));
 });
+
+test('text fields: type, length and pattern are validated', async () => {
+  const { validateField } = await import('../settings.js');
+  const f = { key: 'url', label: 'URL', type: 'text', max: 10, pattern: /^https:\/\//, patternMessage: 'https!' };
+  assert.equal(validateField(f, ''), null);
+  assert.equal(validateField(f, 'https://a'), null);
+  assert.equal(validateField(f, 'http://a'), 'https!');
+  assert.match(validateField(f, 'https://aaaaaaaa'), /höchstens/);
+  assert.match(validateField(f, 5), /Text/);
+});

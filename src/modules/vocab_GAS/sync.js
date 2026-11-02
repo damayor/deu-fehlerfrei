@@ -1,7 +1,7 @@
 // Network pull for the day list. The only place in the module that touches the network.
 import { parsePayload } from './engine.js';
 
-const TIMEOUT_MS = 12000;
+const TIMEOUT_MS = 40000; // Apps Script cold starts plus 7 sheet scans can take 15 s or more
 
 /**
  * @param {{url:string, token:string}} settings
@@ -18,7 +18,7 @@ export async function fetchToday({ url, token }, fetchFn = fetch) {
   try {
     res = await fetchFn(target, { signal: ctrl.signal, redirect: 'follow', credentials: 'omit' });
   } catch (err) {
-    throw new Error(err?.name === 'AbortError' ? 'Zeitüberschreitung beim Laden.' : 'Keine Verbindung zum Server.');
+    throw new Error(err?.name === 'AbortError' ? 'Zeitüberschreitung: der Server antwortet nicht (nach 40 s).' : 'Keine Verbindung zum Server.');
   } finally { clearTimeout(timer); }
   if (!res.ok) throw new Error(`Serverfehler (${res.status}).`);
   let json;

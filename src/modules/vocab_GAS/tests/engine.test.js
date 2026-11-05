@@ -91,7 +91,8 @@ test('highlightParts finds the word case-insensitively or gives up', () => {
   assert.equal(highlightParts('Text', '!'), null);
 });
 
-test('every state has a label and a coaching hint', async () => {
-  const { STATE_LABEL, STATE_HINT } = await import('../engine.js');
-  for (const k of ['known', 'recalled', 'open', 'new']) assert.ok(STATE_LABEL[k] && STATE_HINT[k], k);
+test('legend explains every state', async () => {
+  const { STATE_LABEL, LEGEND } = await import('../engine.js');
+  assert.deepEqual(LEGEND.map((l) => l.state).sort(), Object.keys(STATE_LABEL).sort());
+  for (const l of LEGEND) assert.ok(l.cells && l.text);
 });

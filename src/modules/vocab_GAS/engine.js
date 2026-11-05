@@ -62,13 +62,13 @@ export function wordState(wordBg, fraseBg) {
   return { state: 'new', badPhrase };
 }
 
-/** Short coaching line under each word, by learning state. */
-export const STATE_HINT = {
-  known: 'Das kennst du schon, nur festhalten. (Ya lo sabes.)',
-  recalled: 'Das Wort sitzt, den Satz noch üben. (Repite la frase.)',
-  open: 'Noch nicht sicher: heute wiederholen. (Aún no lo recuerdas.)',
-  new: 'Neu: präg dir das Wort ein. (Palabra nueva.)',
-};
+/** Legend for the list footer: what each cell color combination in the sheet means. */
+export const LEGEND = [
+  { state: 'known', cells: 'Wort grün', text: 'Ya la sé, incluso sin la frase de contexto. Solo mantenerla.' },
+  { state: 'recalled', cells: 'Wort gelb · Satz grün', text: 'La entiendo y la recuerdo con el contexto.' },
+  { state: 'open', cells: 'Wort gelb · Satz gelb', text: 'Ni con el contexto la entiendo: toca traducirla y repasarla.' },
+  { state: 'new', cells: 'ohne Farbe', text: 'Palabra nueva, aún sin reacción en Telegram.' },
+];
 
 export const STATE_LABEL = { known: 'Sicher', recalled: 'Mit Satz erkannt', open: 'Noch offen', new: 'Neu' };
 

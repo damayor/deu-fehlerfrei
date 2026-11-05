@@ -2,7 +2,7 @@ import { h } from '../../../core/ui.js';
 import { dayKey } from '../../../core/activity.js';
 import { isConfigured } from '../settings.js';
 import { fetchToday } from '../sync.js';
-import { slotLabel, totalWords, countStates, originDate, highlightParts, STATE_LABEL, STATE_HINT } from '../engine.js';
+import { slotLabel, totalWords, countStates, originDate, highlightParts, STATE_LABEL, LEGEND } from '../engine.js';
 
 const fmtTime = (ts) => new Date(ts).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 const fmtDay = (d) => d.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
@@ -50,7 +50,6 @@ export function startList(el, { ctx, cached, fetchFn }) {
         h('span', { class: 'orig', lang: 'de' }, w.orig),
         w.state === 'new' ? null : h('span', { class: `tag st-${w.state}` }, `${ICON[w.state]} ${STATE_LABEL[w.state]}`)),
       w.frase ? sentence(w) : null,
-      h('span', { class: 'coach' }, STATE_HINT[w.state] ?? ''),
       w.badPhrase ? h('span', { class: 'bad' }, 'Satz passt nicht zum Wort') : null);
     const trad = h('span', { class: 'trad' }, `🇪🇸 ${w.trad || '–'}`);
     trad.hidden = true;
@@ -84,6 +83,15 @@ export function startList(el, { ctx, cached, fetchFn }) {
       h('p', { class: 'muted hint' }, 'Tippe ein Wort, um die Übersetzung zu sehen.'));
   }
 
+  function legend() {
+    return h('section', { class: 'card legend' }, h('h2', null, 'Legende'),
+      ...LEGEND.map((l) => h('div', { class: 'legend-row' },
+        h('span', { class: `tag st-${l.state}` }, `${ICON[l.state]} ${STATE_LABEL[l.state]}`.trim()),
+        h('span', { class: 'muted' }, h('b', null, `${l.cells}: `), l.text))),
+      h('p', { class: 'muted' }, 'Satz rot: la frase no encaja con la palabra.'),
+      h('p', { class: 'muted' }, 'Los colores son los de las celdas del Sheet, que cambian con tus reacciones en Telegram.'));
+  }
+
   function draw() {
     const out = [h('h1', null, 'Wörter des Tages')];
     if (!isConfigured(ctx.settings)) {
@@ -93,7 +101,7 @@ export function startList(el, { ctx, cached, fetchFn }) {
     } else {
       if (fresh()) {
         if (!state.data.slots.length) out.push(h('div', { class: 'card' }, h('p', null, 'Heute gibt es keine Wörter zu wiederholen.')));
-        else out.push(summary(state.data), ...state.data.slots.map((s) => slot(s, state.data.date)).filter(Boolean));
+        else out.push(summary(state.data), ...state.data.slots.map((s) => slot(s, state.data.date)).filter(Boolean), legend());
       } else if (!busy) {
         out.push(h('div', { class: 'card' }, h('p', null, state ? 'Die gespeicherte Liste ist von einem anderen Tag.' : 'Noch keine Liste geladen.')));
       }

@@ -51,3 +51,17 @@ export function summarizeActivity(events, goal, now) {
 
   return { today: { count: perDay.get(today) ?? 0, goal, met: met(today) }, current, best: Math.max(best, current) };
 }
+
+/**
+ * Last `n` local days ending today, oldest first, for the activity history.
+ * @returns {{day:string,count:number,met:boolean}[]}
+ */
+export function recentDays(events, goal, now, n = 14) {
+  const perDay = activitiesPerDay(events);
+  const today = dayKey(now);
+  return Array.from({ length: n }, (_, i) => {
+    const day = shiftDay(today, i - (n - 1));
+    const count = perDay.get(day) ?? 0;
+    return { day, count, met: count >= goal };
+  });
+}

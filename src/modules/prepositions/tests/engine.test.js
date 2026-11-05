@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   DEFAULTS, BASE_PREPS, deriveProgress, applyAnswer, fillQueue, rotateQueue, pickCard, buildOptions,
-  answersInCurrentRound, isRoundComplete, summarize,
+  answersInCurrentRound, isRoundComplete, summarize, graduatedItems,
 } from '../engine.js';
 
 function seeded(seed = 1) { // mulberry32
@@ -149,4 +149,22 @@ test('fillQueue trims an oversized queue, keeping items with the most progress',
   const progress = { a: { streak: 0 }, b: { streak: 2 }, c: { streak: 1 }, d: { streak: 0 } };
   const q = fillQueue(items, progress, ['a', 'b', 'c', 'd'], { ...DEFAULTS, queueSize: 2 }, Math.random);
   assert.deepEqual(q, ['b', 'c']);
+});
+
+test('summarize by category and graduatedItems: hand-counted sample', () => {
+  // t1 (V): 4 right -> graduated. t2 (V): 1 right, 2 wrong. n1 (N): 1 wrong. Everything else untouched.
+  const evs = [
+    ...[1, 2, 3, 4].map((i) => ans('t1', true, i)),
+    ans('t2', true, 5), ans('t2', false, 6), ans('t2', false, 7), ans('n1', false, 8),
+  ];
+  const p = deriveProgress(evs, S);
+  const s = summarize(ITEMS, p);
+  assert.equal(s.graduated, 1);
+  assert.equal(s.answers, 8);
+  assert.equal(s.accuracy, 5 / 8);
+  assert.deepEqual(s.byCat.V, { total: 3, graduated: 1, correct: 5, wrong: 2 });
+  assert.deepEqual(s.byCat.N, { total: 4, graduated: 0, correct: 0, wrong: 1 });
+  assert.deepEqual(s.byCat.A, { total: 5, graduated: 0, correct: 0, wrong: 0 });
+  assert.deepEqual(s.hardest.map((x) => [x.id, x.wrong]), [['t2', 2], ['n1', 1]]);
+  assert.deepEqual(graduatedItems(ITEMS, p).map((x) => x.id), ['t1']);
 });

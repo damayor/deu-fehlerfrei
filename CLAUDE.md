@@ -7,7 +7,8 @@ Owner: David (Berlin). Chat with him in Colombian Spanish. Code, comments and co
 
 1. **Prepositions** (`modules/prepositions`): must work reliably on David's real phone, with menu and a configurable settings window. **Only this is built now.**
 2. **Mistakes Test** (`modules/mistakes`): generates tests from David's own past German mistakes, stored in Cloudflare D1 by his feedback agent. Second objective. Do not start until Prepositions passes its final phone check.
-3. **Vocab B2** (`modules/vocab_B2`): last, and optional. It already works today through Google Sheets and Telegram, so skipping the rebuild loses nothing. Placeholder only. Never touch `legacy/vocab_B2/`, the Apps Script project or the Telegram reminders.
+3. **Vocab GAS** (`modules/vocab_GAS`): built (v0.5.0). Shows today's words from David's Telegram schedule. Pull only, see "Module: Vocab GAS" below.
+4. **Vocab B2** (`modules/vocab_B2`): last, and optional. It already works today through Google Sheets and Telegram, so skipping the rebuild loses nothing. Placeholder only. Never touch `legacy/vocab_B2/`, the Apps Script project or the Telegram reminders.
 
 If a choice trades phone reliability for features, choose reliability.
 
@@ -50,6 +51,7 @@ src/
   modules/
     prepositions/        index.js engine.js data.json views/ tests/
     mistakes/            (phase 2)
+    vocab_GAS/           today's words from the Google Apps Script (built)
     vocab_B2/            README placeholder (last)
 worker/                  Cloudflare Worker for the Mistakes module (phase 2)
 legacy/                  original code, read-only
@@ -175,6 +177,10 @@ Test generation (no LLM in phase 2, deterministic):
 ## Module 3: Vocab B2 (last, optional)
 
 Placeholder README only. Context for later: Google Sheet `TELC B2 Vokabeln SRS`, Apps Script web app, Telegram reminders already working, about 130 to 147 B1/B2 words in blocks by exam section. If David drops this, nothing else depends on it.
+
+## Module: Vocab GAS (built)
+
+Preview of the words the Telegram alerts send today (German only), read from David's Google Apps Script web app (`docs/vocab-gas-endpoint.gs`, read-only `doGet`). The 7 activators (months 8, 7, 6, 1, then days 15, 7, 5) at 09 to 21 h. The state of each word comes from the cell colors that the Telegram reactions write. Web-app URL and token live in IndexedDB (module settings) and are left out of backup files. Viewing does not count as an activity. Not the same as `vocab_B2`; never touch `legacy/vocab_B2/`, the Apps Script project or the Telegram reminders.
 
 ## Reliability requirements (what "it works" means)
 

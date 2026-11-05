@@ -55,7 +55,7 @@ async function render() {
   try {
     if (tab === 'ueben' && sub) await mountModule(sub);
     else if (tab === 'ueben') view.append(shell.ueben([...registry.values()]));
-    else if (tab === 'fortschritt') view.append(shell.fortschritt());
+    else if (tab === 'fortschritt') view.append(await shell.fortschritt([...registry.values()]));
     else if (tab === 'einstellungen') view.append(await shell.einstellungen({ persisted, checkUpdate, modules: [...registry.values()], rerender: render }));
     else view.append(await shell.heute([...registry.values()]));
   } catch (err) {

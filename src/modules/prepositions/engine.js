@@ -128,18 +128,27 @@ export function answersInCurrentRound(events) {
 
 export const isRoundComplete = (events, settings) => answersInCurrentRound(events) >= settings.roundSize;
 
-/** Summary for the Fortschritt tab. */
+/** Summary for the Fortschritt tab: totals, per category and the hardest items. */
 export function summarize(items, progress) {
   let correct = 0; let wrong = 0; let graduated = 0;
   const hardest = [];
+  const byCat = {};
   for (const it of items) {
+    const c = byCat[it.cat] ??= { total: 0, graduated: 0, correct: 0, wrong: 0 };
+    c.total += 1;
     const r = progress[it.id];
     if (!r) continue;
     correct += r.correct; wrong += r.wrong;
-    if (r.graduated) graduated += 1;
+    c.correct += r.correct; c.wrong += r.wrong;
+    if (r.graduated) { graduated += 1; c.graduated += 1; }
     if (r.wrong > 0) hardest.push({ id: it.id, word: it.word, wrong: r.wrong, correct: r.correct });
   }
-  hardest.sort((a, b) => b.wrong - a.wrong);
+  hardest.sort((a, b) => b.wrong - a.wrong || a.word.localeCompare(b.word, 'de'));
   const total = correct + wrong;
-  return { graduated, total: items.length, accuracy: total ? correct / total : null, hardest: hardest.slice(0, 8) };
+  return { graduated, total: items.length, answers: total, accuracy: total ? correct / total : null, byCat, hardest: hardest.slice(0, 8) };
+}
+
+/** Graduated items ("Endlich verinnerlicht"), alphabetical. */
+export function graduatedItems(items, progress) {
+  return items.filter((it) => progress[it.id]?.graduated).sort((a, b) => a.word.localeCompare(b.word, 'de'));
 }

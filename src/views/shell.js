@@ -1,7 +1,7 @@
-import { h, placeholder } from '../core/ui.js';
+import { h } from '../core/ui.js';
 
 export { heute } from './heute.js';
-export const fortschritt = () => placeholder('Fortschritt', 'Statistiken kommen in Phase 5.');
+export { fortschritt } from './fortschritt.js';
 
 export function ueben(modules) {
   return h('div', null, h('h1', null, 'Üben'),

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 process.env.TZ = 'Europe/Berlin'; // before any Date use: DST days below are Berlin's
-const { dayKey, shiftDay, summarizeActivity } = await import('../activity.js');
+const { dayKey, shiftDay, summarizeActivity, recentDays } = await import('../activity.js');
 
 const at = (iso) => new Date(iso).getTime();
 const act = (iso, module = 'prepositions') => ({ module, type: 'activity', kind: 'round', ts: at(iso) });
@@ -56,4 +56,13 @@ test('goal is applied to history; answers do not count; best streak tracked', ()
   const s = summarizeActivity(ev, 1, at('2026-05-07T12:00:00'));
   assert.equal(s.best, 3); assert.equal(s.current, 1);
   assert.equal(summarizeActivity(ev, 2, at('2026-05-07T12:00:00')).best, 0);
+});
+
+test('recentDays: n days ending today, oldest first, across DST', () => {
+  const evs = [act('2026-10-24T10:00:00'), act('2026-10-25T10:00:00'), act('2026-10-25T20:00:00'), act('2026-10-27T09:00:00')];
+  const days = recentDays(evs, 2, at('2026-10-27T12:00:00'), 4);
+  assert.deepEqual(days.map((d) => d.day), ['2026-10-24', '2026-10-25', '2026-10-26', '2026-10-27']);
+  assert.deepEqual(days.map((d) => d.count), [1, 2, 0, 1]);
+  assert.deepEqual(days.map((d) => d.met), [false, true, false, false]);
+  assert.equal(recentDays([], 2, at('2026-10-27T12:00:00'), 14).length, 14);
 });

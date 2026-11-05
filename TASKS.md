@@ -64,9 +64,9 @@ Phone check 3: change graduation threshold, queue size, number of options, the o
 
 ## Phase 5: Progress and mastered views
 
-- [ ] Fortschritt: global streak and activity history, plus Prepositions stats (graduated count, accuracy, hardest items, per category).
-- [ ] Verinnerlicht sub-tab: graduated items with preposition, case and example.
-- [ ] Verify numbers against a hand count on a small sample.
+- [x] Fortschritt: global streak and activity history, plus Prepositions stats (graduated count, accuracy, hardest items, per category).
+- [x] Verinnerlicht sub-tab: graduated items with preposition, case and example.
+- [x] Verify numbers against a hand count on a small sample.
 
 Phone check 4: numbers match what David actually answered.
 
@@ -154,6 +154,8 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 - [ ] Revisit the "no framework" rule in `CLAUDE.md` only if vanilla JS causes a strong, concrete tradeoff (for example the Phase 4 settings window or the Mistakes module needing lots of shared UI state and duplicated DOM code). Candidates: Preact + htm (about 4 KB, no build step) or Vue (no-build mode). Needs David's approval; until then stay vanilla. Avoid Angular (heavy, needs a build).
 
 ## Decisions log
+
+- 2026-11-05: Phase 5 built (v0.6.0). `stats()` returns `{metrics, lists}` and Fortschritt renders it generically per module (loads each module, error-isolated). Verinnerlicht is a sub-tab inside Prepositions. Hand-count unit test covers the numbers; phone check 4 still open (David). Push reminders for the streak requested by David (Android only): not planned yet, needs a Worker with cron + Web Push and a change to the no-push rule in CLAUDE.md.
 
 - 2026-11-02: vocab_GAS UI v0.5.0: state per word from the cell colors the Telegram reactions write (word green = sicher, word yellow + phrase green = mit Satz erkannt, both yellow/orange = offen, phrase red = Satz passt nicht, no color = neu). The endpoint sends `wordBg`/`fraseBg`, the app maps them (hue based, so manual orange works); without them every word is "neu". Slot header shows "Vor N Tagen/Monaten" plus the original date, no hour. Phone check passed for fetching (works on the phone after a few seconds).
 

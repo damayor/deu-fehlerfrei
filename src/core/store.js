@@ -81,3 +81,13 @@ export async function requestPersistence() {
   const timeout = new Promise((resolve) => setTimeout(() => resolve(false), 1500));
   try { return (await Promise.race([navigator.storage?.persist?.() ?? false, timeout])) ?? false; } catch { return false; }
 }
+
+/** Write, read back and delete a probe record. Throws a German message when storage does not really work. */
+export async function probe() {
+  const key = '__probe';
+  const value = String(Date.now());
+  await put('cache', { key, value });
+  const back = await get('cache', key);
+  await del('cache', key);
+  if (back?.value !== value) throw new Error('Gespeicherte Daten konnten nicht gelesen werden.');
+}

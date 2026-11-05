@@ -72,9 +72,9 @@ Phone check 4: numbers match what David actually answered.
 
 ## Phase 6: Hardening and release of Part 1
 
-- [ ] `navigator.storage.persist()`, visible errors on storage failure.
+- [x] `navigator.storage.persist()`, visible errors on storage failure.
 - [ ] Update flow: ship a version bump and confirm the phone shows "Neue Version verfügbar" without losing progress.
-- [ ] Accessibility pass: contrast, font scaling, labels.
+- [x] Accessibility pass: contrast, font scaling, labels.
 - [ ] Run the full checklist below.
 
 ### Full phone checklist
@@ -154,6 +154,8 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 - [ ] Revisit the "no framework" rule in `CLAUDE.md` only if vanilla JS causes a strong, concrete tradeoff (for example the Phase 4 settings window or the Mistakes module needing lots of shared UI state and duplicated DOM code). Candidates: Preact + htm (about 4 KB, no build step) or Vue (no-build mode). Needs David's approval; until then stay vanilla. Avoid Angular (heavy, needs a build).
 
 ## Decisions log
+
+- 2026-11-05: Phase 6 code done (v0.6.1): persist() no longer blocks startup, storage probe at boot shows a red banner if IndexedDB does not really work, update check on return to foreground, `sw.test.js` guards precache list and version match, contrast fixes for state tags and danger button in dark mode, rem-based font size, focus outline, 14-day history as 2 rows of 7. Open: update flow and the full checklist on the phone (David).
 
 - 2026-11-05: Phase 5 built (v0.6.0). `stats()` returns `{metrics, lists}` and Fortschritt renders it generically per module (loads each module, error-isolated). Verinnerlicht is a sub-tab inside Prepositions. Hand-count unit test covers the numbers; phone check 4 still open (David). Push reminders for the streak requested by David (Android only): not planned yet, needs a Worker with cron + Web Push and a change to the no-push rule in CLAUDE.md.
 

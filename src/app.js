@@ -7,6 +7,7 @@ import { createCtx } from './core/ctx.js';
 
 const view = document.getElementById('view');
 const banner = document.getElementById('update-banner');
+const storageBanner = document.getElementById('storage-banner');
 /** @type {Map<string, any>} */
 const registry = new Map();
 let active = null; // currently mounted module
@@ -72,6 +73,11 @@ function showUpdateBanner(worker) {
   banner.hidden = false;
 }
 
+function showStorageBanner(err) {
+  storageBanner.textContent = `Speicher nicht verfügbar: Fortschritt wird NICHT gespeichert. ${err?.message ?? err}`;
+  storageBanner.hidden = false;
+}
+
 async function checkUpdate() {
   if (!swReg) return 'Kein Service Worker aktiv (Offline-Modus nicht verfügbar).';
   try {
@@ -94,6 +100,8 @@ async function registerServiceWorker() {
         if (w.state === 'installed' && navigator.serviceWorker.controller) showUpdateBanner(w);
       });
     });
+    // Look for a new version whenever the app comes back to the foreground (no background work).
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') swReg.update().catch(() => {}); });
     let reloading = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (!reloading) { reloading = true; location.reload(); }
@@ -108,7 +116,8 @@ window.addEventListener('unhandledrejection', (e) => store.logError('promise', e
 window.addEventListener('hashchange', render);
 
 (async function boot() {
-  persisted = await store.requestPersistence();
+  store.requestPersistence().then((ok) => { persisted = ok; }); // never blocks startup
+  try { await store.probe(); } catch (err) { showStorageBanner(err); store.logError('storage-probe', err); }
   try { applyTheme((await loadSettings(store, 'global', GLOBAL_SCHEMA)).theme); } catch (err) { store.logError('theme', err); }
   await registerModules();
   await render();

@@ -2,7 +2,7 @@ import { h } from '../../../core/ui.js';
 import { dayKey } from '../../../core/activity.js';
 import { isConfigured } from '../settings.js';
 import { fetchToday } from '../sync.js';
-import { slotLabel, totalWords, countStates, originDate, highlightParts, STATE_LABEL } from '../engine.js';
+import { slotLabel, totalWords, countStates, originDate, highlightParts, STATE_LABEL, STATE_HINT } from '../engine.js';
 
 const fmtTime = (ts) => new Date(ts).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 const fmtDay = (d) => d.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
@@ -50,6 +50,7 @@ export function startList(el, { ctx, cached, fetchFn }) {
         h('span', { class: 'orig', lang: 'de' }, w.orig),
         w.state === 'new' ? null : h('span', { class: `tag st-${w.state}` }, `${ICON[w.state]} ${STATE_LABEL[w.state]}`)),
       w.frase ? sentence(w) : null,
+      h('span', { class: 'coach' }, STATE_HINT[w.state] ?? ''),
       w.badPhrase ? h('span', { class: 'bad' }, 'Satz passt nicht zum Wort') : null);
     const trad = h('span', { class: 'trad' }, `🇪🇸 ${w.trad || '–'}`);
     trad.hidden = true;

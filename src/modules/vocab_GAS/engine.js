@@ -62,6 +62,14 @@ export function wordState(wordBg, fraseBg) {
   return { state: 'new', badPhrase };
 }
 
+/** Short coaching line under each word, by learning state. */
+export const STATE_HINT = {
+  known: 'Das kennst du schon, nur festhalten. (Ya lo sabes.)',
+  recalled: 'Das Wort sitzt, den Satz noch üben. (Repite la frase.)',
+  open: 'Noch nicht sicher: heute wiederholen. (Aún no lo recuerdas.)',
+  new: 'Neu: präg dir das Wort ein. (Palabra nueva.)',
+};
+
 export const STATE_LABEL = { known: 'Sicher', recalled: 'Mit Satz erkannt', open: 'Noch offen', new: 'Neu' };
 
 /** @returns {Record<State, number>} */

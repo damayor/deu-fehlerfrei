@@ -73,22 +73,22 @@ Phone check 4: numbers match what David actually answered.
 ## Phase 6: Hardening and release of Part 1
 
 - [x] `navigator.storage.persist()`, visible errors on storage failure.
-- [ ] Update flow: ship a version bump and confirm the phone shows "Neue Version verfügbar" without losing progress.
+- [x] Update flow: ship a version bump and confirm the phone shows "Neue Version verfügbar" without losing progress.
 - [x] Accessibility pass: contrast, font scaling, labels.
 - [ ] Run the full checklist below.
 
 ### Full phone checklist
 
-- [ ] Installs from the home screen, opens full screen
-- [ ] Works in airplane mode after first load
-- [ ] Force close and reopen keeps progress and settings
+- [x] Installs from the home screen, opens full screen
+- [x] Works in airplane mode after first load
+- [x] Force close and reopen keeps progress and settings
 - [ ] Reboot keeps progress and settings
-- [ ] App update keeps progress and settings
-- [ ] All tabs work, back button behaves
+- [x] App update keeps progress and settings
+- [x] All tabs work, back button behaves
 - [ ] Every setting changes behavior as described
-- [ ] Daily goal and streak behave correctly, including across midnight
+- [x] Daily goal and streak behave correctly, including across midnight
 - [ ] Export and import round trip works
-- [ ] Portrait and landscape fine
+- [x] Portrait and landscape fine
 - [ ] No battery use when the app is closed
 
 Done when: every box passes on the real phone. **Stop here and let David use it for a few days before Part 2.**
@@ -112,6 +112,11 @@ Decisions (David, 2026-10-31):
 - [x] UI: list of today's words with context sentence, optional tap to reveal the meaning.
 - [x] Decide if viewing the list counts as an `activity` for the daily goal (default: no).
 - [ ] Phone check: the list matches the alerts that arrive during the day.
+
+## Streak reminder (David)
+
+- [ ] (David) Deploy `worker/push` (README), then in the app: URL, token, Aktivieren, Test senden.
+- [ ] Phone check: the reminder arrives at the chosen hour only on days the goal is open; tapping it opens the app.
 
 # PART 2: Mistakes Test (second objective, starts only when David says so)
 
@@ -154,6 +159,8 @@ Vocab already works through Google Sheets and Telegram. Only do this if David as
 - [ ] Revisit the "no framework" rule in `CLAUDE.md` only if vanilla JS causes a strong, concrete tradeoff (for example the Phase 4 settings window or the Mistakes module needing lots of shared UI state and duplicated DOM code). Candidates: Preact + htm (about 4 KB, no build step) or Vue (no-build mode). Needs David's approval; until then stay vanilla. Avoid Angular (heavy, needs a build).
 
 ## Decisions log
+
+- 2026-11-05: v0.7.0. Wörter des Tages: coaching line per state (`STATE_HINT`). Streak reminder (David's request, Android): `worker/push` (Cloudflare Worker, KV, hourly cron, empty Web Push signed with VAPID), client `core/push.js`, card "Erinnerung (Serie)" in Einstellungen, `push` handler in `sw.js`. The app tells the Worker only "goal met on <date>" so no reminder arrives after the goal. Public VAPID key is served by the Worker. CLAUDE.md rule on push changed. NOT deployed or tested on a phone: David runs `worker/push/README.md`, then Aktivieren and Test senden.
 
 - 2026-11-05: Phase 6 code done (v0.6.1): persist() no longer blocks startup, storage probe at boot shows a red banner if IndexedDB does not really work, update check on return to foreground, `sw.test.js` guards precache list and version match, contrast fixes for state tags and danger button in dark mode, rem-based font size, focus outline, 14-day history as 2 rows of 7. Open: update flow and the full checklist on the phone (David).
 

@@ -30,7 +30,7 @@ Rules:
 - Vanilla JavaScript, ES modules, JSDoc types. No framework, no build step, no runtime dependencies. Dev tooling only with David's approval.
 - **Offline first.** Everything needed to practice is on the device. Network is only for optional pulls (Mistakes module) and never blocks practice.
 - Mobile first: design at 360 px width, tap targets at least 44 px, safe areas, portrait and landscape.
-- No push notifications, no background work, no permission prompts. Zero battery use when closed.
+- No background work in the app. The only push is the optional **streak reminder** (Android, one notification per day when the goal is still open, `worker/push`): the Worker sends it, the app runs nothing while closed. It asks the notification permission once, only when David taps "Aktivieren". Nothing else may push or prompt.
 - Relative URLs only (the app is served from a sub-path on GitHub Pages).
 - Parity first: reproduce legacy behavior before adding anything.
 - Small files, one responsibility each. No secrets in the repo or in deployed code.

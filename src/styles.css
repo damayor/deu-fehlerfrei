@@ -143,3 +143,8 @@ main > div { max-width: 640px; margin-inline: auto; }
 .history .day small { font-size: .7rem; opacity: .8; }
 .rows { list-style: none; padding: 0; margin: 0; }
 .rows li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+
+.word .coach { display: block; margin-top: 4px; font-size: .85rem; color: var(--c, var(--muted)); }
+.word.st-known .coach { --c: var(--st-known); }
+.word.st-recalled .coach { --c: var(--st-recalled); }
+.word.st-open .coach { --c: var(--st-open); }

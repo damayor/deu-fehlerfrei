@@ -13,7 +13,10 @@ export async function createCtx(mod, ui) {
     logEvent: log,
     getEvents: async (filter) => filterEvents(await store.getAll('events'), filter),
     /** One completed exercise; counts toward the shared daily goal. */
-    completeActivity: (info = {}) => log({ type: 'activity', kind: info.kind ?? 'round', meta: info.meta ?? {} }),
+    completeActivity: async (info = {}) => {
+      await log({ type: 'activity', kind: info.kind ?? 'round', meta: info.meta ?? {} });
+      globalThis.dispatchEvent?.(new Event('fehlerfrei:activity')); // lets the shell refresh the streak reminder
+    },
     /** Small private state blob for the module (for example its queue). */
     state: {
       get: async () => (await store.get('cache', `state:${mod.id}`))?.value ?? null,

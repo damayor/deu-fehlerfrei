@@ -4,6 +4,7 @@ import { GLOBAL_SCHEMA, loadSettings } from './core/settings.js';
 import * as store from './core/store.js';
 import * as shell from './views/shell.js';
 import { createCtx } from './core/ctx.js';
+import * as push from './core/push.js';
 
 const view = document.getElementById('view');
 const banner = document.getElementById('update-banner');
@@ -115,6 +116,17 @@ window.addEventListener('error', (e) => store.logError('window', e.error ?? e.me
 window.addEventListener('unhandledrejection', (e) => store.logError('promise', e.reason));
 window.addEventListener('hashchange', render);
 
+/** Tell the reminder Worker whether today's goal is met. Never blocks or shows errors: it retries on the next call. */
+async function syncReminder() {
+  try {
+    const [rs, gs, events] = await Promise.all([
+      loadSettings(store, 'reminder', push.REMINDER_SCHEMA), loadSettings(store, 'global', GLOBAL_SCHEMA), store.getAll('events')]);
+    await push.syncState(store, rs, events, gs.dailyGoal);
+  } catch { /* offline or not set up */ }
+}
+window.addEventListener('fehlerfrei:activity', syncReminder);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') syncReminder(); });
+
 (async function boot() {
   store.requestPersistence().then((ok) => { persisted = ok; }); // never blocks startup
   try { await store.probe(); } catch (err) { showStorageBanner(err); store.logError('storage-probe', err); }
@@ -122,4 +134,5 @@ window.addEventListener('hashchange', render);
   await registerModules();
   await render();
   registerServiceWorker();
+  syncReminder();
 })();

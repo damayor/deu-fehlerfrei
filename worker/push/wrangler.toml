@@ -1,0 +1,14 @@
+name = "fehlerfrei-push"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[triggers]
+crons = ["0 * * * *"]   # hourly; the reminder goes out in the first run at or after the chosen hour
+
+[vars]
+ALLOWED_ORIGIN = "https://damayor.github.io"          # origin only, no path
+VAPID_SUBJECT = "https://github.com/damayor/deu-fehlerfrei"          # contact for the push service; set your own
+
+[[kv_namespaces]]
+binding = "SUBS"
+id = "ec948d30d3804ae2bf8225115ce6e194"

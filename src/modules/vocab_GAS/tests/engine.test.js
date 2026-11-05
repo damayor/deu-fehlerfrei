@@ -90,3 +90,8 @@ test('highlightParts finds the word case-insensitively or gives up', () => {
   assert.equal(highlightParts('Ganz anderer Satz.', 'ausruhen'), null);
   assert.equal(highlightParts('Text', '!'), null);
 });
+
+test('every state has a label and a coaching hint', async () => {
+  const { STATE_LABEL, STATE_HINT } = await import('../engine.js');
+  for (const k of ['known', 'recalled', 'open', 'new']) assert.ok(STATE_LABEL[k] && STATE_HINT[k], k);
+});

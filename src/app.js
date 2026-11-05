@@ -121,6 +121,7 @@ async function syncReminder() {
   try {
     const [rs, gs, events] = await Promise.all([
       loadSettings(store, 'reminder', push.REMINDER_SCHEMA), loadSettings(store, 'global', GLOBAL_SCHEMA), store.getAll('events')]);
+    await store.put('cache', { key: 'streak-info', value: push.streakInfo(events, gs.dailyGoal, Date.now()) }); // read by sw.js
     await push.syncState(store, rs, events, gs.dailyGoal);
   } catch { /* offline or not set up */ }
 }

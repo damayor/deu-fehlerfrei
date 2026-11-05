@@ -1,6 +1,6 @@
 // Streak reminder (Web Push) client. The only network use here is to David's own Worker (worker/push).
 // Settings namespace `reminder`: Worker URL, token (kept out of backups) and the hour.
-import { dayKey, summarizeActivity } from './activity.js';
+import { dayKey, shiftDay, summarizeActivity } from './activity.js';
 
 export const REMINDER_SCHEMA = [
   { key: 'url', label: 'Worker-URL (Erinnerung)', type: 'text', default: '', max: 300,
@@ -16,6 +16,15 @@ export const supported = () => 'serviceWorker' in navigator && 'PushManager' in 
 /** base64url string to bytes (for applicationServerKey). */
 export function b64urlToBytes(s) {
   return Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
+}
+
+/**
+ * Streak snapshot the service worker reads (from IndexedDB) to write the notification text, because the push itself
+ * carries no data. `endDay` is the last day the streak includes (today if met, else yesterday), null without a streak.
+ */
+export function streakInfo(events, goal, now) {
+  const { current, today } = summarizeActivity(events, goal, now);
+  return { current, endDay: current ? (today.met ? dayKey(now) : shiftDay(dayKey(now), -1)) : null };
 }
 
 /** What the Worker needs to know: the reminder time, the time zone and the day the goal was met (if today). */

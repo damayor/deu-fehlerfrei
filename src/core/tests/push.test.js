@@ -28,3 +28,13 @@ test('reminder settings: defaults are valid and need URL and token', () => {
   assert.equal(isConfigured({ ...d, url: 'https://w.example', token: 't' }), true);
   assert.ok(validate(REMINDER_SCHEMA, { ...d, url: 'http://x' }).url);
 });
+
+test('streakInfo: endDay is today when met, yesterday otherwise, null without a streak', async () => {
+  const { streakInfo } = await import('../push.js');
+  const now = at('2026-11-05T12:00:00');
+  const day = (d, n) => Array.from({ length: n }, () => act(`${d}T10:00:00`));
+  const evs = [...day('2026-11-03', 2), ...day('2026-11-04', 2)];
+  assert.deepEqual(streakInfo(evs, 2, now), { current: 2, endDay: '2026-11-04' });
+  assert.deepEqual(streakInfo([...evs, ...day('2026-11-05', 2)], 2, now), { current: 3, endDay: '2026-11-05' });
+  assert.deepEqual(streakInfo([], 2, now), { current: 0, endDay: null });
+});

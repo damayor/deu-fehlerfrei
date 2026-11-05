@@ -1,5 +1,5 @@
 // Keep CACHE_VERSION in step with VERSION in src/config.js.
-const CACHE_VERSION = '0.7.0';
+const CACHE_VERSION = '0.7.2';
 const CACHE = `german-trainer-${CACHE_VERSION}`;
 const ASSETS = [
   './', 'index.html', 'manifest.webmanifest', 'src/styles.css',
@@ -12,7 +12,7 @@ const ASSETS = [
   'src/modules/prepositions/settings.js', 'src/modules/prepositions/views/practice.js', 'src/modules/prepositions/views/mastered.js',
   'src/modules/vocab_GAS/index.js', 'src/modules/vocab_GAS/engine.js', 'src/modules/vocab_GAS/settings.js',
   'src/modules/vocab_GAS/sync.js', 'src/modules/vocab_GAS/views/list.js',
-  'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png',
+  'icons/badge-96.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png',
 ];
 
 self.addEventListener('install', (e) => {
@@ -40,12 +40,39 @@ self.addEventListener('fetch', (e) => {
   })());
 });
 
-// Streak reminder: the Worker sends an empty push, the text is fixed here. Nothing runs unless a push arrives.
+// Streak reminder: the Worker sends an empty push, the text is built here from the streak snapshot the app
+// keeps in IndexedDB (cache store, key 'streak-info'). Nothing runs unless a push arrives.
+const dayKeyOf = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+/** @param {{current:number,endDay:string|null}|null} info @param {number} now ms */
+function streakBody(info, now) {
+  const today = new Date(now);
+  const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+  // The snapshot only counts if the streak still reaches today or yesterday; otherwise it already broke.
+  const alive = info?.current > 0 && [dayKeyOf(today), dayKeyOf(yesterday)].includes(info.endDay);
+  if (!alive) return 'Heute fehlt noch eine Übung. Starte eine neue Serie!';
+  return `🔥 ${info.current} ${info.current === 1 ? 'Tag' : 'Tage'} in Folge. Heute fehlt noch eine Übung, sonst reißt die Serie.`;
+}
+
+function readStreakInfo() {
+  return new Promise((resolve) => {
+    const open = indexedDB.open('german-trainer');
+    open.onerror = () => resolve(null);
+    open.onsuccess = () => {
+      try {
+        const get = open.result.transaction('cache').objectStore('cache').get('streak-info');
+        get.onsuccess = () => resolve(get.result?.value ?? null);
+        get.onerror = () => resolve(null);
+      } catch { resolve(null); }
+    };
+  });
+}
+
 self.addEventListener('push', (e) => {
-  e.waitUntil(self.registration.showNotification('Fehlerfrei', {
-    body: 'Deine Serie ist in Gefahr: Heute fehlt noch eine Übung.',
-    icon: 'icons/icon-192.png', badge: 'icons/icon-192.png', tag: 'streak',
-  }));
+  e.waitUntil((async () => self.registration.showNotification('Fehlerfrei', {
+    body: streakBody(await readStreakInfo(), Date.now()),
+    icon: 'icons/icon-192.png', badge: 'icons/badge-96.png', tag: 'streak',
+  }))());
 });
 
 self.addEventListener('notificationclick', (e) => {

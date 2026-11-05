@@ -28,3 +28,17 @@ test('every source file is precached (otherwise it breaks offline)', () => {
   const missing = walk(join(root, 'src')).filter((f) => !assets.includes(f));
   assert.deepEqual(missing, []);
 });
+
+test('streakBody: shows the streak while it is alive, resets the text once it broke', async () => {
+  process.env.TZ = 'Europe/Berlin';
+  const vm = await import('node:vm');
+  const ctx = { self: { addEventListener() {} }, indexedDB: {} };
+  vm.runInNewContext(sw, ctx);
+  const at = (iso) => new Date(iso).getTime();
+  const now = at('2026-11-05T20:00:00');
+  assert.match(ctx.streakBody({ current: 5, endDay: '2026-11-04' }, now), /🔥 5 Tage in Folge/); // goal met yesterday
+  assert.match(ctx.streakBody({ current: 1, endDay: '2026-11-05' }, now), /🔥 1 Tag in Folge/);
+  assert.match(ctx.streakBody({ current: 5, endDay: '2026-11-03' }, now), /neue Serie/);           // missed yesterday: broke
+  assert.match(ctx.streakBody(null, now), /neue Serie/);
+  assert.match(ctx.streakBody({ current: 0, endDay: null }, now), /neue Serie/);
+});
